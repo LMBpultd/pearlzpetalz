@@ -7,5 +7,5 @@
 <b>Founder: Rose Mariya Nidhin</b>
 <br>
 <a href="https://www.instagram.com/pearlz_petalz">
-  <img src="images/instagramc.webp" width="50"">
+  <img src="images/instagramc.webp" width="50">
 </a>
