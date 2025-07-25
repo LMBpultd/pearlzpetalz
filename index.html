@@ -42,103 +42,121 @@
       <img src="images/foot.svg" alt="footer" class="foot" />
     </footer>
 
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="cart-modal">
+      <div class="cart-content">
+        <h2>Cart Your Dream</h2>
+        <div id="cart-items"></div>
+        <div id="empty-msg">Your cart is empty.</div>
+        <br /><br />
+        <button id="submit-cart" style="display: none">Order now</button>
+      </div>
+    </div>
+
     <script>
       const gallery = document.getElementById("gallery");
-      const commonMessage = encodeURIComponent(
-        "Hi, I'm interested in your product."
-      );
-
       const items = [
         {
           img: "1.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMc2XTgyU-I/?img_index=1&igsh=dTZhaGR6bnZqZWxq",
+          instagram: "https://www.instagram.com/p/DMc2XTgyU-I/?img_index=1",
           caption: "Floral Hair Band",
         },
         {
           img: "2.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMczYbvOn5C/?igsh=MW1icGVucnY0MnVkaA==",
+          instagram: "https://www.instagram.com/p/DMczYbvOn5C/",
           caption: "Sparkly Bow Hair Band",
         },
         {
           img: "3.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMaQeFRIpFx/?igsh=MXJsZHkzZ3QzODdyYQ==",
+          instagram: "https://www.instagram.com/p/DMaQeFRIpFx/",
           caption: "Pink Kids Hair Band",
         },
         {
           img: "4.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMN9HAFSjmP/?igsh=OXY4YnVsb3ZpZDBy",
+          instagram: "https://www.instagram.com/p/DMN9HAFSjmP/",
           caption: "Lace Hair Band",
         },
         {
           img: "5.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMN9U1TyPYE/?igsh=YWN0YTV2eDJqeXlv",
+          instagram: "https://www.instagram.com/p/DMN9U1TyPYE/",
           caption: "Yellow Floral Hair Band",
         },
         {
           img: "6.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMN9dFRy0je/?igsh=cDlld2JyeHZldm5v",
+          instagram: "https://www.instagram.com/p/DMN9dFRy0je/",
           caption: "Handmade Bow Tie",
         },
         {
           img: "7.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMSdRjHp_qZ/?igsh=MTIxMWRic3c3YmtyNA==",
+          instagram: "https://www.instagram.com/p/DMSdRjHp_qZ/",
           caption: "Vintage Rose Band",
         },
         {
           img: "8.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMSdEOlpnS3/?igsh=MWJsbXhwNHp2bmp0dg==",
+          instagram: "https://www.instagram.com/p/DMSdEOlpnS3/",
           caption: "Cute Kids Band",
         },
         {
           img: "9.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMP4sA8JuSg/?igsh=YTQzMHc2ZnFtZDJr",
+          instagram: "https://www.instagram.com/p/DMP4sA8JuSg/",
           caption: "Classic Pink Hair Band",
         },
         {
           img: "10.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMP40emJOIG/?igsh=bWowdW5mMGozZ2wy",
+          instagram: "https://www.instagram.com/p/DMP40emJOIG/",
           caption: "Butterfly Hair Band",
         },
         {
           img: "11.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMXrIIHJKHj/?igsh=OHp2NWVkNGVtcHRj",
+          instagram: "https://www.instagram.com/p/DMXrIIHJKHj/",
           caption: "Pastel Blue Band",
         },
         {
           img: "12.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMaP6VrMrsE/?igsh=ajFzY3ppYW9rZmJ3",
+          instagram: "https://www.instagram.com/p/DMaP6VrMrsE/",
           caption: "Premium Baby Hair Band",
         },
         {
           img: "13.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMXukIPNA6n/?igsh=MTdrYjVzcHIxcGNteQ==",
+          instagram: "https://www.instagram.com/p/DMXukIPNA6n/",
           caption: "Fluffy Girl Hair Band",
         },
         {
           img: "14.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMfYITBvdmq/?igsh=MTFjM2M1dnBkaXNkbQ==",
+          instagram: "https://www.instagram.com/p/DMfYITBvdmq/",
           caption: "Fluffy Girl Hair Band",
         },
         {
           img: "15.jpg",
-          instagram:
-            "https://www.instagram.com/p/DMfbJ_5iwd6/?igsh=NHZlcmRoYW5paTVl",
+          instagram: "https://www.instagram.com/p/DMfbJ_5iwd6/",
           caption: "Fluffy Girl Hair Band",
         },
+        {
+          img: "16.jpg",
+          instagram: "https://www.instagram.com/p/DMh-RwyITVr/?igsh=MWJzMm1ja3doemhmOA==",
+          caption: "Fluffy Girl Hair Band",
+        },
+        {
+          img: "17.jpg",
+          instagram: "https://www.instagram.com/p/DMiAAihRuwK/?igsh=OHJuOWJqNDk4Nzlv",
+          caption: "Fluffy Girl Hair Band",
+        },
+        {
+          img: "18.jpg",
+          instagram: "https://www.instagram.com/p/DMfYITBvdmq/?igsh=MTFjM2M1dnBkaXNkbQ==",
+          caption: "Fluffy Girl Hair Band",
+        },
+        {
+          img: "19.jpg",
+          instagram: "https://www.instagram.com/p/DMfbJ_5iwd6/?igsh=NHZlcmRoYW5paTVl",
+          caption: "Fluffy Girl Hair Band",
+        },
+        {
+          img: "20.jpg",
+          instagram: "https://www.instagram.com/p/DMc2XTgyU-I/?igsh=dTZhaGR6bnZqZWxq",
+          caption: "Fluffy Girl Hair Band",
+        },
+       
       ];
 
       const observer = new IntersectionObserver(
@@ -147,32 +165,34 @@
             if (entry.isIntersecting) {
               const item = entry.target.dataset.item;
               const { img, instagram, caption } = JSON.parse(item);
-              const whatsappLink = `https://wa.me/+919539889496?text=${commonMessage}%0A%0A${encodeURIComponent(
-                instagram
-              )}`;
 
               entry.target.innerHTML = `
-            <img src="images/${img}" alt="${caption}" loading="lazy">
-            <div class="btn" id="first">
-              <a href="${instagram}" id="instagram" target="_blank">
-                <img src="images/instagram.webp" alt="Instagram icon" id="rd">Instagram
-              </a>
-            </div>
-            <div class="btn" id="second">
-              <a href="${whatsappLink}" id="WhatsApp" target="_blank">
-                <img src="images/whatsapp.webp" alt="WhatsApp icon" id="rd">WhatsApp
-              </a>
-            </div>
-          `;
+              <img src="images/${img}" alt="${caption}" loading="lazy">
+              <div class="ic-btn">
+                <div class="btn" id="frd">
+                  <a href="${instagram}" id="instagram" target="_blank">
+                    <img src="images/instagram.webp" alt="Instagram icon" id="rd">
+                  </a>
+                </div>
+                <div class="btn">
+                  <button class="add-to-cart" data-img="${img}" data-caption="${caption}">
+                    <img src="images/cart.webp" alt="cart icon" id="rd">
+                  </button>
+                </div>
+                <div class="btn">
+                  <a href="https://wa.me/+919539889496?text=Hi, I'm interested in your product.%0A%0A${encodeURIComponent(
+                    instagram
+                  )}" id="WhatsApp" target="_blank">
+                    <img src="images/whatsapp.webp" alt="WhatsApp icon" id="rd">
+                  </a>
+                </div>
+              </div>`;
               entry.target.classList.add("hb");
               observer.unobserve(entry.target);
             }
           });
         },
-        {
-          rootMargin: "200px",
-          threshold: 0.1,
-        }
+        { rootMargin: "200px", threshold: 0.1 }
       );
 
       items.reverse().forEach((item) => {
@@ -181,6 +201,13 @@
         gallery.appendChild(placeholder);
         observer.observe(placeholder);
       });
+
+      function removeItem(index) {
+        cart.splice(index, 1);
+        showCart();
+      }
     </script>
+
+    <script src="js/cart.js"></script>
   </body>
 </html>
