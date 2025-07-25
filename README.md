@@ -4,6 +4,7 @@ Handcrafted with love and care, my unique, affordable kids' hair bands are more 
 
 <b>Founder : Rose Mariya Nidhin </b>
 <br>
-<a href="https://www.instagram.com/pearlz_petalz"><img src="images/instagram.webp" style="width: 50px border-radius: 50%"></a>
+<a href="https://www.instagram.com/pearlz_petalz"><img src="images/instagram.webp" style="width: 50px; border-radius: 50%;">
+</a>
 
 
