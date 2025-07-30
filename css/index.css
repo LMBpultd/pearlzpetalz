@@ -31,16 +31,13 @@ p {
   width: 90%;
 }
 
-.foot-img {
-  width: 0vw;
-  transition: width 2s ease-in-out;
-  display: block;
-  margin: 80px auto 0;
-}
-
 .social-icons {
-  display: none; /* Hide initially */
-  margin-top: 20px;
+  display: block;
+  width: 0;
+  opacity: 0;
+  margin: 20px auto;
+  transition: all 0.7s ease;
+  overflow: hidden;
 }
 
 .social-icons a {
@@ -50,6 +47,55 @@ p {
   text-decoration: none;
 }
 
+.foot {
+  opacity: 0;
+  margin-top: 50px;
+  padding: 20px;
+  transform: translateY(100px);
+}
+
+.csd {
+  margin-bottom: 20px;
+}
+
+.copy100 {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+/* Animation classes */
+.animate-expand {
+  animation: expandFadeIn 0.7s ease forwards;
+}
+
+@keyframes expandFadeIn {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUpFade 1s ease forwards;
+}
+
+@keyframes slideUpFade {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Desktop styles */
 @media screen and (min-width: 1000px) {
   h1 {
     font-size: 7vw;
@@ -87,6 +133,7 @@ p {
   }
 }
 
+/* Mobile styles */
 @media screen and (max-width: 1000px) {
   h1 {
     font-size: 10vw;
@@ -119,11 +166,4 @@ p {
   }
 
   .log {
-    margin-right: 80px;
-  }
-
-  .log1 {
-    margin-left: 80px;
-    border-radius: 50%;
-  }
-}
+    margin-righ

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Image Gallery</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .gallery img {
+      width: 25vw;
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    @media screen and (max-width: 1000px) {
+      .gallery img {
+        width: 50vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="gallery" id="gallery"></div>
+
+  <script>
+    const gallery = document.getElementById("gallery");
+    const totalImages = 20; // Change this to however many images you have
+    const path = "\\images\\Collections\\";
+
+    for (let i = 1; i <= totalImages; i++) {
+      const img = document.createElement("img");
+      img.src = `${path}${i}.jpg`;
+      img.alt = `Image ${i}`;
+      gallery.appendChild(img);
+    }
+  </script>
+</body>
+</html>

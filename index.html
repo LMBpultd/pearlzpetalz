@@ -14,7 +14,7 @@
 
     <p id="type-p">
       Handcrafted with love and care, my unique, affordable kids' hair bands are
-      more than accessories — they're trusted keepsakes, made to capture
+      more than accessories they're trusted keepsakes, made to capture
       childhood moments with quality and heart.
     </p>
 
@@ -58,16 +58,41 @@
       </a>
     </div>
 
-    <br /><br /><br />
+    <div class="foot">
+      <div class="csd">
+        <h2>Quick Links</h2>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="About.html">About Us</a></li>
+      </div>
 
-    <img
-      id="foot-img"
-      class="foot-img"
-      src="images/foot.svg"
-      alt="pearlz_petalz"
-    />
+      <div class="csd">
+        <h2>Business Hours</h2>
+        <li><a>10:00 Am - 06:00 PM</a></li>
+      </div>
+
+      <div class="csd">
+        <h2>Pearlz_Petalz</h2>
+        <li><a>Neriamalgalam</a></li>
+        <li><a href="tel:+919539889496">+91 95398 89496</a></li>
+        <li><a href="">pearlzpetalz@gmail.com</a></li>
+        <li><a href="">Navigate</a></li>
+      </div>
+
+      <div class="csd">
+        <h2>Google Review</h2>
+        <a href=""><button>Review Us</button></a>
+      </div>
+
+      <div class="copy100">
+        Copyright © <span id="year"></span> Pearlz_Petalz | All Rights Reserved
+      </div>
+    </div>
 
     <script>
+      // Set current year
+      document.getElementById("year").textContent = new Date().getFullYear();
+
       function typeWriter(element, speed = 50, callback) {
         const text = element.textContent;
         element.textContent = "";
@@ -105,27 +130,27 @@
         const h1 = document.getElementById("type-h1");
         const p = document.getElementById("type-p");
         const h3 = document.getElementById("type-h3");
-        const footImg = document.getElementById("foot-img");
         const socialIcons = document.getElementById("social-icons");
         const iconLinks = socialIcons.querySelectorAll("a");
+        const foot = document.querySelector(".foot");
 
-        // Initially hide all icons
         iconLinks.forEach((link) => {
           link.style.display = "none";
           link.style.opacity = 0;
         });
 
+        h3.style.opacity = 0;
+        socialIcons.style.opacity = 0;
+        socialIcons.style.width = "0";
+        foot.style.opacity = 0;
+
         typeWriter(h1, 70, () => {
           typeWriter(p, 20, () => {
-            typeWriter(h3, 50, () => {
-              footImg.style.width = "100vw";
+            h3.classList.add("animate-expand");
+            socialIcons.classList.add("animate-expand");
+            foot.classList.add("animate-slide-up");
 
-              // Show social-icons container block to reserve space
-              socialIcons.style.display = "block";
-
-              // Show icons one by one
-              showIconsSequentially(iconLinks, 500); // 500ms delay between each
-            });
+            showIconsSequentially(iconLinks, 500);
           });
         });
       };
