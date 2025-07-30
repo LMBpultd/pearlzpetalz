@@ -50,18 +50,19 @@ p {
   text-decoration: none;
 }
 
-
 @media screen and (min-width: 1000px) {
   h1 {
     font-size: 7vw;
     color: yellow;
     font-family: "Times New Roman", Times, serif;
+    transform: scaleY(1.2);
   }
 
   h3 {
-font-size: 4vw;
-font-family: Georgia, 'Times New Roman', Times, serif;
-margin-top: 80px;
+    font-size: 4vw;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    margin-top: 80px;
+    transform: scaleY(1.33);
   }
 
   p {
@@ -69,21 +70,21 @@ margin-top: 80px;
     line-height: 1.4;
     color: rgb(152, 189, 80);
     font-style: italic;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, "Times New Roman", Times, serif;
   }
 
-  #log{
+  #log {
     width: 7vw;
-}
+  }
 
-.log{
+  .log {
     margin-right: 100px;
-}
+  }
 
-.log1{
+  .log1 {
     margin-left: 100px;
     border-radius: 50%;
-}
+  }
 }
 
 @media screen and (max-width: 1000px) {
@@ -91,12 +92,14 @@ margin-top: 80px;
     font-size: 10vw;
     color: yellow;
     font-family: "Times New Roman", Times, serif;
+    transform: scaleY(1.33);
   }
 
   h3 {
-font-size: 7vw;
-font-family: Georgia, 'Times New Roman', Times, serif;
-margin-top: 200px;
+    font-size: 7vw;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    margin-top: 200px;
+    transform: scaleY(1.2);
   }
 
   p {
@@ -104,26 +107,23 @@ margin-top: 200px;
     line-height: 1.4;
     color: rgb(152, 189, 80);
     font-style: italic;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, "Times New Roman", Times, serif;
   }
 
-
-.social-icons{
+  .social-icons {
     margin-top: 50px;
-}
+  }
 
-#log{
+  #log {
     width: 10vw;
-}
+  }
 
-.log{
+  .log {
     margin-right: 80px;
-}
+  }
 
-.log1{
+  .log1 {
     margin-left: 80px;
     border-radius: 50%;
-}
-
-
+  }
 }
