@@ -131,6 +131,37 @@ p {
     margin-left: 100px;
     border-radius: 50%;
   }
+
+  .foot{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .csd{
+    width: 25%;
+  }
+
+  .csd h2{
+    padding-bottom: 20px;
+    user-select: none;
+  }
+  .csd li{
+    text-align: left;
+    margin-left: 15%;
+    color: black;
+  }
+
+  .copy100{
+    width: 100%;
+    text-align: center;
+    color: white;
+  }
+
+}
+
+a{
+  text-decoration: none;
 }
 
 /* Mobile styles */
@@ -165,5 +196,12 @@ p {
     width: 10vw;
   }
 
-  .log {
-    margin-righ
+    .log {
+    margin-right: 80px;
+  }
+
+  .log1 {
+    margin-left: 80px;
+    border-radius: 50%;
+  }
+}
