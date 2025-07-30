@@ -1,13 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Redirecting...</title>
-  <script>
-    window.location.replace("https://www.instagram.com/pearlz_petalz");
-  </script>
-</head>
-<body>
-  Redirecting to <a href="https://www.instagram.com/pearlz_petalz">pearlz_petalz</a>...
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pearlz_Petalz</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+  </head>
+  <body>
+    <h1 id="type-h1">Pearlz_Petalz</h1>
+
+    <p id="type-p">
+      Handcrafted with love and care, my unique, affordable kids' hair bands are
+      more than accessories — they're trusted keepsakes, made to capture
+      childhood moments with quality and heart.
+    </p>
+
+    <h3 id="type-h3">Connect with Us</h3>
+
+    <div class="social-icons" id="social-icons">
+     <!-- WhatsApp -->
+<a href="https://wa.me/919539889496?text=am%20interested%20in%20your%20products" title="WhatsApp" target="_blank">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" id="log" class="log">
+</a>
+
+<!-- Chrome -->
+<a href="pearlz_petalz.html" title="Chrome">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Google_Chrome_icon_%282011%29.png" id="log">
+</a>
+
+<!-- Instagram -->
+<a href="https://www.instagram.com/pearlz_petalz" title="Instagram" target="_blank">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" id="log" class="log1">
+</a>
+
+    </div>
+
+    <br /><br /><br />
+    
+    <img
+      id="foot-img"
+      class="foot-img"
+      src="images/foot.svg"
+      alt="pearlz_petalz"
+    />
+
+<script>
+  function typeWriter(element, speed = 50, callback) {
+    const text = element.textContent;
+    element.textContent = "";
+    element.style.opacity = 1;
+    if (element.tagName !== "P") {
+      element.style.whiteSpace = "nowrap";
+      element.style.borderRight = "2px solid";
+    } else {
+      element.style.whiteSpace = "normal";
+      element.style.borderRight = "none";
+    }
+
+    let i = 0;
+    const timer = setInterval(() => {
+      element.textContent += text.charAt(i);
+      i++;
+      if (i === text.length) {
+        clearInterval(timer);
+        element.style.borderRight = "none";
+        if (callback) callback();
+      }
+    }, speed);
+  }
+
+  function showIconsSequentially(icons, delay = 500) {
+    icons.forEach((icon, index) => {
+      setTimeout(() => {
+        icon.style.display = "inline-block";
+        icon.style.opacity = 1;
+      }, index * delay);
+    });
+  }
+
+  window.onload = () => {
+    const h1 = document.getElementById("type-h1");
+    const p = document.getElementById("type-p");
+    const h3 = document.getElementById("type-h3");
+    const footImg = document.getElementById("foot-img");
+    const socialIcons = document.getElementById("social-icons");
+    const iconLinks = socialIcons.querySelectorAll("a");
+
+    // Initially hide all icons
+    iconLinks.forEach(link => {
+      link.style.display = "none";
+      link.style.opacity = 0;
+    });
+
+    typeWriter(h1, 70, () => {
+      typeWriter(p, 20, () => {
+        typeWriter(h3, 50, () => {
+          footImg.style.width = "100vw";
+
+          // Show social-icons container block to reserve space
+          socialIcons.style.display = "block";
+
+          // Show icons one by one
+          showIconsSequentially(iconLinks, 500); // 500ms delay between each
+        });
+      });
+    });
+  };
+</script>
+
+  </body>
 </html>
