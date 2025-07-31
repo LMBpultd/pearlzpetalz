@@ -69,6 +69,10 @@ p {
   animation: expandFadeIn 0.7s ease forwards;
 }
 
+.lodsd{
+  border-radius: 50%;
+}
+
 @keyframes expandFadeIn {
   0% {
     width: 0;
