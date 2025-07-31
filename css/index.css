@@ -150,6 +150,7 @@ p {
     text-align: left;
     margin-left: 15%;
     color: black;
+    margin-bottom: 15px;
   }
 
   .copy100{
@@ -157,6 +158,24 @@ p {
     text-align: center;
     color: white;
   }
+
+  .m1r{
+    padding-left: 30px;
+  }
+
+  li a{
+    font-size: 18px;
+  }
+
+  #rswr{
+  margin-top: 15px;
+  padding: 8px 15px;
+  font-size: 20px;
+  font-weight: 700;
+  background-color: royalblue;
+  border-radius: 10px;
+  border: 0;
+}
 
 }
 
@@ -204,4 +223,49 @@ a{
     margin-left: 80px;
     border-radius: 50%;
   }
+
+  .foot{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: left;
+    align-items: start;
+  }
+
+  .csd{
+    text-align: left;
+  }
+  li{
+    color: black;
+    margin-top: 15px;
+  }
+
+  .b1r{
+    margin-left: -10px;
+  }
+#rswr{
+  margin-top: 15px;
+  margin-left: 30px;
+  padding: 5px 15px;
+  font-size: 17px;
+  font-weight: 700;
+  background-color: royalblue;
+  border-radius: 10px;
+  border: 0;
 }
+
+.str{
+margin-left: 20px;
+
+}
+
+}
+
+.str{
+  margin-bottom: 20px;
+  font-size: 29px;
+  color: greenyellow;
+  font-weight: 900;
+  text-shadow: 2px 3px 6px rgb(116, 116, 116);
+}
+
