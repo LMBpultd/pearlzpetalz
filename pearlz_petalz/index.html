@@ -362,7 +362,7 @@ function showCart() {
 
     items.forEach((item, idx) => {
       const imgName = item.image.split('/').pop();
-      const imageURL = `https://www.pearlzpetalz.co.in/images/Collections/${imgName}`;
+      const imageURL = `https://www.pearlzpetalz.co.in/pearlz_petalz/images/Collections/${imgName}`;
       const romanNum = toRoman(idx + 1);
 
       message += `\n${romanNum}. ${item.name} (x${item.qty})\n   ${imageURL}\n`;
