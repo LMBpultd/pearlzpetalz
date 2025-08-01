@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pearlz Petalz</title>
   <style>
+    /* ... [styles unchanged, truncated for brevity] ... */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -200,7 +201,6 @@
       padding: 0 25px;
       color: white;
     }
-
   </style>
 </head>
 <body>
@@ -208,11 +208,7 @@
   <div class="header">
     <span><h1 id="ppz">Pearlz_Petalz</h1></span>
     <div class="header-icons">
-      
-      <span id="cartIcon">
-        🛒
-        <span id="cartCount">0</span>
-      </span>
+      <span id="cartIcon">🛒<span id="cartCount">0</span></span>
     </div>
   </div>
 
@@ -229,149 +225,147 @@
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
-const imageFolder = 'images/Collections/';
-const container = document.getElementById('productContainer');
-const cartMap = {};
 
-// Convert number to Roman numeral
-function toRoman(num) {
-  const lookup = {
-    M:1000, CM:900, D:500, CD:400,
-    C:100, XC:90, L:50, XL:40,
-    X:10, IX:9, V:5, IV:4, I:1
-  };
-  let roman = '';
-  for (let key in lookup) {
-    while (num >= lookup[key]) {
-      roman += key;
-      num -= lookup[key];
-    }
-  }
-  return roman;
-}
+  const imageFolder = 'images/Collections/';
+  const container = document.getElementById('productContainer');
+  const cartMap = {};
 
-fetch('products.json')
-  .then(res => res.json())
-  .then(products => {
-    renderProducts(products);
-    setupCart(products);
-  })
-  .catch(err => console.error("Failed to load products.json:", err));
-
-function renderProducts(products) {
-  container.innerHTML = '';
-  products.forEach((item, index) => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <img src="${imageFolder}${item.image}" alt="${item.name}">
-      <div class="product-name">${item.name}</div>
-      <div class="product-price">₹${item.price}</div>
-      <button class="add-btn" data-index="${index}" data-img="${item.image}">Add to Cart</button>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function updateCartCount() {
-  const cartCount = document.getElementById('cartCount');
-  const totalQty = Object.values(cartMap).reduce((sum, item) => sum + item.qty, 0);
-  cartCount.textContent = totalQty;
-  cartCount.style.display = totalQty > 0 ? 'inline-block' : 'none';
-}
-
-function setupCart(products) {
-  container.addEventListener('click', e => {
-    if (e.target.classList.contains('add-btn')) {
-      const idx = parseInt(e.target.getAttribute('data-index'));
-      const item = products[idx];
-      const img = item.image;
-
-      if (!cartMap[img]) {
-        cartMap[img] = {
-          name: item.name,
-          price: item.price,
-          image: `${imageFolder}${img}`,
-          qty: 1
-        };
-      } else {
-        cartMap[img].qty += 1;
+  // Convert number to Roman numeral
+  function toRoman(num) {
+    const lookup = {M:1000, CM:900, D:500, CD:400,C:100, XC:90, L:50, XL:40,X:10, IX:9, V:5, IV:4, I:1};
+    let roman = '';
+    for (let key in lookup) {
+      while (num >= lookup[key]) {
+        roman += key;
+        num -= lookup[key];
       }
-      updateCartCount();
     }
-  });
-
-  document.getElementById('cartIcon').addEventListener('click', showCart);
-}
-
-function showCart() {
-  let cartModal = document.getElementById('cartModal');
-  if (!cartModal) {
-    cartModal = document.createElement('div');
-    cartModal.id = 'cartModal';
-    document.body.appendChild(cartModal);
+    return roman;
   }
 
-  const items = Object.values(cartMap);
-  let content = '<h3>Your Cart</h3><ul id="cartItems">';
-  if (items.length === 0) {
-    content += "<li>No items in cart.</li>";
-  } else {
-    items.forEach(item => {
-      content += `
-        <li>
-          <img src="${item.image}" alt="${item.name}">
-          ${item.name} - ₹${item.price} <strong>x${item.qty}</strong>
-          <button class="remove-btn" data-img="${item.image}">Delete</button>
-        </li>`;
+  fetch('products.json')
+    .then(res => res.json())
+    .then(products => {
+      const reversedProducts = products.reverse(); // Show newest products first
+      renderProducts(reversedProducts);
+      setupCart(reversedProducts);
+    })
+    .catch(err => console.error("Failed to load products.json:", err));
+
+  function renderProducts(products) {
+    container.innerHTML = '';
+    products.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${imageFolder}${item.image}" alt="${item.name}">
+        <div class="product-name">${item.name}</div>
+        <div class="product-price">₹${item.price}</div>
+        <button class="add-btn" data-index="${index}" data-img="${item.image}">Add to Cart</button>
+      `;
+      container.appendChild(card);
     });
   }
-  content += `</ul>
-    <button class="order-btn">Order via WhatsApp</button>
-    <button class="close-btn">Close</button>`;
-  cartModal.innerHTML = content;
 
-  cartModal.querySelector('#cartItems').addEventListener('click', e => {
-    if (e.target.classList.contains('remove-btn')) {
-      const imageUrl = e.target.getAttribute('data-img');
-      let key = null;
-      for (const k in cartMap) {
-        if (cartMap[k].image === imageUrl) {
-          key = k;
-          break;
-        }
-      }
-      if (key) {
-        cartMap[key].qty -= 1;
-        if (cartMap[key].qty <= 0) {
-          delete cartMap[key];
+  function updateCartCount() {
+    const cartCount = document.getElementById('cartCount');
+    const totalQty = Object.values(cartMap).reduce((sum, item) => sum + item.qty, 0);
+    cartCount.textContent = totalQty;
+    cartCount.style.display = totalQty > 0 ? 'inline-block' : 'none';
+  }
+
+  function setupCart(products) {
+    container.addEventListener('click', e => {
+      if (e.target.classList.contains('add-btn')) {
+        const idx = parseInt(e.target.getAttribute('data-index'));
+        const item = products[idx];
+        const img = item.image;
+
+        if (!cartMap[img]) {
+          cartMap[img] = {
+            name: item.name,
+            price: item.price,
+            image: `${imageFolder}${img}`,
+            qty: 1
+          };
+        } else {
+          cartMap[img].qty += 1;
         }
         updateCartCount();
-        showCart();
       }
-    }
-  });
-
-  cartModal.querySelector('.close-btn').addEventListener('click', () => {
-    cartModal.remove();
-  });
-
-  cartModal.querySelector('.order-btn').addEventListener('click', () => {
-    const baseURL = "https://wa.me/9539889496?text=";
-    let message = "I am interested in your these products:\n";
-
-    items.forEach((item, idx) => {
-      const imgName = item.image.split('/').pop();
-      const imageURL = `https://www.pearlzpetalz.co.in/pearlz_petalz/images/Collections/${imgName}`;
-      const romanNum = toRoman(idx + 1);
-
-      message += `\n${romanNum}. ${item.name} (x${item.qty})\n   ${imageURL}\n`;
     });
 
-    const encodedURL = baseURL + encodeURIComponent(message);
-    window.open(encodedURL, '_blank');
-  });
-}
+    document.getElementById('cartIcon').addEventListener('click', showCart);
+  }
+
+  function showCart() {
+    let cartModal = document.getElementById('cartModal');
+    if (!cartModal) {
+      cartModal = document.createElement('div');
+      cartModal.id = 'cartModal';
+      document.body.appendChild(cartModal);
+    }
+
+    const items = Object.values(cartMap);
+    let content = '<h3>Your Cart</h3><ul id="cartItems">';
+    if (items.length === 0) {
+      content += "<li>No items in cart.</li>";
+    } else {
+      items.forEach(item => {
+        content += `
+          <li>
+            <img src="${item.image}" alt="${item.name}">
+            ${item.name} - ₹${item.price} <strong>x${item.qty}</strong>
+            <button class="remove-btn" data-img="${item.image}">Delete</button>
+          </li>`;
+      });
+    }
+    content += `</ul>
+      <button class="order-btn">Order via WhatsApp</button>
+      <button class="close-btn">Close</button>`;
+    cartModal.innerHTML = content;
+
+    cartModal.querySelector('#cartItems').addEventListener('click', e => {
+      if (e.target.classList.contains('remove-btn')) {
+        const imageUrl = e.target.getAttribute('data-img');
+        let key = null;
+        for (const k in cartMap) {
+          if (cartMap[k].image === imageUrl) {
+            key = k;
+            break;
+          }
+        }
+        if (key) {
+          cartMap[key].qty -= 1;
+          if (cartMap[key].qty <= 0) {
+            delete cartMap[key];
+          }
+          updateCartCount();
+          showCart();
+        }
+      }
+    });
+
+    cartModal.querySelector('.close-btn').addEventListener('click', () => {
+      cartModal.remove();
+    });
+
+    cartModal.querySelector('.order-btn').addEventListener('click', () => {
+      const baseURL = "https://wa.me/9539889496?text=";
+      let message = "I am interested in your these products:\n";
+
+      items.forEach((item, idx) => {
+        const imgName = item.image.split('/').pop();
+        const imageURL = `https://www.pearlzpetalz.co.in/pearlz_petalz/images/Collections/${imgName}`;
+        const romanNum = toRoman(idx + 1);
+
+        message += `\n${romanNum}. ${item.name} (x${item.qty})\n   ${imageURL}\n`;
+      });
+
+      const encodedURL = baseURL + encodeURIComponent(message);
+      window.open(encodedURL, '_blank');
+    });
+  }
 </script>
 
 </body>
