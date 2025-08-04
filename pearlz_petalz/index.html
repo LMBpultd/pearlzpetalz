@@ -190,12 +190,17 @@
     #ppz, #cartIcon{
       font-size: 220%;
       margin: 0;
+      color: white;
     }
 
     a{
       text-decoration: none;
+      font-weight: 700;
     }
 
+    b a{
+      color: #000;
+    }
     .all-categories-btn a{
       font-size: 180%;
       padding: 0 25px;
@@ -206,20 +211,20 @@
 <body>
 
   <div class="header">
-    <span><h1 id="ppz">Pearlz_Petalz</h1></span>
+    <span><a href="../"><h1 id="ppz">Pearlz_Petalz</h1></a></span>
     <div class="header-icons">
       <span id="cartIcon">🛒<span id="cartCount">0</span></span>
     </div>
   </div>
 
-  <h1>Categories</h1>
+  <h1>Unique Handmade Collections</h1>
 
   <div class="products" id="productContainer"></div>
 
   <button class="all-categories-btn"><a href="../Gallery/">Gallery</a></button>
 
   <div class="footer">
-    <b> PEARLZ_PETALZ </b><br><br>
+    <b> <a href="../">PEARLZ_PETALZ </a></b><br><br>
     Copyright © <span id="year"></span> Pearlz_Petalz | All Rights Reserved <br><br>
   </div>
 
