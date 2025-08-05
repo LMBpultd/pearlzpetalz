@@ -1,91 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us | Pearlz Petalz</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #c0c0c0;
-      color: #333;
-    }
-    header {
-      background-color: #c0c0c0;
-      padding: 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.5em;
-      color: #d81b60;
-    }
-    .content {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .content h2 {
-      color: #c2185b;
-    }
-    .highlight {
-      font-weight: bold;
-      color: #ad1457;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      background-color: #c0c0c0;
-      color: #555;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us | Pearlz Petalz</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #c0c0c0;
+        color: #333;
+      }
+      header {
+        background-color: #c0c0c0;
+        padding: 20px;
+        text-align: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 2.5em;
+        color: #d81b60;
+      }
+      .content {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+      .content h2 {
+        color: #c2185b;
+      }
+      .highlight {
+        font-weight: bold;
+        color: #ad1457;
+      }
+      footer {
+        text-align: center;
+        padding: 20px;
+        font-size: 0.9em;
+        background-color: #c0c0c0;
+        color: #555;
+      }
 
-    a{
+      a {
         text-decoration: none;
         font-weight: bold;
-    }
+      }
 
-    *{
+      .ppl {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        bottom: 0;
+        margin-bottom: 25px;
+        margin-right: 25px;
+        right: 0;
+        border-radius: 50%;
+      }
+
+      .ppl a img {
+        width: 100%;
+        border-radius: 50%;
+      }
+
+      * {
         line-height: 1.5;
-    }
-  </style>
-</head>
-<body>
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>About Pearlz Petalz</h1>
+    </header>
 
-  <header>
-    <h1>About Pearlz Petalz</h1>
-  </header>
+    <div class="content">
+      <h2>A Special Place for Custom Models</h2>
+      <p>
+        Welcome to <span class="highlight">Pearlz Petalz</span> – your go-to
+        destination for exclusive, handpicked collections designed with elegance
+        and creativity.
+      </p>
+      <p>
+        We specialize in <span class="highlight">custom models</span> that
+        reflect your personal style, making every piece a unique statement.
+      </p>
+      <p>
+        Discover our
+        <span class="highlight">Unique Handmade Collections</span> and fall in
+        love with designs that speak to you. Follow us on Instagram:
+        <a href="https://instagram.com/pearlz_petalz" target="_blank"
+          >@pearlz_petalz</a
+        >
+      </p>
+      <p>
+        <strong>Founder:</strong>
+        <a href="https://instagram.com/rose_maria_nidhin" target="_blank"
+          >Rose Maria Nidhin</a
+        >
+      </p>
+      <p>📦 We deliver all over Kerala with love and care!</p>
+    </div>
 
-  <div class="content">
-    <h2>A Special Place for Custom Models</h2>
-    <p>
-      Welcome to <span class="highlight">Pearlz Petalz</span> – your go-to destination for exclusive, handpicked collections designed with elegance and creativity.
-    </p>
-    <p>
-      We specialize in <span class="highlight">custom models</span> that reflect your personal style, making every piece a unique statement.
-    </p>
-    <p>
-      Discover our <span class="highlight">Unique Handmade Collections</span> and fall in love with designs that speak to you.
-      Follow us on Instagram: <a href="https://instagram.com/pearlz_petalz" target="_blank">@pearlz_petalz</a>
-    </p>
-    <p>
-      <strong>Founder:</strong> <a href="https://instagram.com/rose_maria_nidhin" target="_blank">Rose Maria Nidhin</a>
-    </p>
-    <p>
-      📦 We deliver all over Kerala with love and care!
-    </p>
-  </div>
+    <div class="ppl">
+      <a href="../pearlz_petalz/"
+        ><img src="../pearlz_petalz/logo.jpg" alt="my shop"
+      /></a>
+    </div>
 
- <footer>
-  &copy; <span id="year"></span> Pearlz Petalz. All rights reserved.
-</footer>
+    <footer>
+      &copy; <span id="year"></span> Pearlz Petalz. All rights reserved.
+    </footer>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
-
-</body>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>

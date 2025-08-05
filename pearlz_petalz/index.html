@@ -1,377 +1,398 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pearlz Petalz</title>
-  <style>
-    /* ... [styles unchanged, truncated for brevity] ... */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #fff;
-      color: #000;
-    }
-
-    .header {
-      background-color: #1f3a48;
-      padding: 1rem;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header-icons {
-      display: flex;
-      gap: 1.2rem;
-    }
-
-    .header-icons span {
-      cursor: pointer;
-      position: relative;
-    }
-
-    #cartCount {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: red;
-      color: white;
-      border-radius: 50%;
-      font-size: 0.7rem;
-      padding: 2px 5px;
-      display: none;
-    }
-
-    h1 {
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    .section-title {
-      margin-left: 20px;
-      font-size: 1.2rem;
-      margin-top: 1.5rem;
-      font-weight: bold;
-    }
-
-    .products {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 1rem;
-      gap: 20px;
-    }
-
-    .product-card {
-      width: 160px;
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .product-card img {
-      width: 100%;
-      height: auto;
-      border-radius: 5px;
-    }
-
-    .product-name {
-      margin: 10px 0 5px;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .product-price {
-      color: #000;
-      margin-bottom: 5px;
-    }
-
-    .add-btn {
-      border: 1px solid #000;
-      background: #fff;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 10px;
-      font-weight: 750;
-    }
-
-    .all-categories-btn {
-      display: block;
-      margin: 30px auto;
-      padding: 10px 20px;
-      background: #000;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.8rem;
-      background: #f8f8f8;
-      border-top: 1px solid #ddd;
-    }
-
-    #cartModal {
-      position: fixed;
-      top: 70px;
-      right: 70px;
-      background: #fff;
-      border: 1px solid #888;
-      z-index: 9999;
-      padding: 20px;
-      min-width: 320px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
-    }
-
-    #cartModal ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 10px 0;
-      max-height: 400px;
-      overflow-y: auto;
-    }
-
-    #cartModal li {
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-    }
-
-    #cartModal img {
-      width: 30px;
-      height: 30px;
-      border-radius: 3px;
-      margin-right: 10px;
-      flex-shrink: 0;
-    }
-
-    #cartModal button.remove-btn {
-      margin-left: auto;
-      background: #ff4d4d;
-      border: none;
-      color: white;
-      padding: 2px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    #cartModal button.close-btn {
-      display: block;
-      width: 100%;
-      padding: 8px;
-      border: none;
-      background: #1f3a48;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 8px;
-    }
-
-    #cartModal button.order-btn {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background: green;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    #ppz, #cartIcon{
-      font-size: 220%;
-      margin: 0;
-      color: white;
-    }
-
-    a{
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    b a{
-      color: #000;
-    }
-    .all-categories-btn a{
-      font-size: 180%;
-      padding: 0 25px;
-      color: white;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="header">
-    <span><a href="../"><h1 id="ppz">Pearlz_Petalz</h1></a></span>
-    <div class="header-icons">
-      <span id="cartIcon">🛒<span id="cartCount">0</span></span>
-    </div>
-  </div>
-
-  <h1>Unique Handmade Collections</h1>
-
-  <div class="products" id="productContainer"></div>
-
-  <button class="all-categories-btn"><a href="../Gallery/">Gallery</a></button>
-
-  <div class="footer">
-    <b> <a href="../">PEARLZ_PETALZ </a></b><br><br>
-    Copyright © <span id="year"></span> Pearlz_Petalz | All Rights Reserved <br><br>
-  </div>
-
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  const imageFolder = 'images/Collections/';
-  const container = document.getElementById('productContainer');
-  const cartMap = {};
-
-  // Convert number to Roman numeral
-  function toRoman(num) {
-    const lookup = {M:1000, CM:900, D:500, CD:400,C:100, XC:90, L:50, XL:40,X:10, IX:9, V:5, IV:4, I:1};
-    let roman = '';
-    for (let key in lookup) {
-      while (num >= lookup[key]) {
-        roman += key;
-        num -= lookup[key];
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pearlz Petalz</title>
+    <style>
+      /* ... [styles unchanged, truncated for brevity] ... */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #fff;
+        color: #000;
       }
-    }
-    return roman;
-  }
 
-  fetch('products.json')
-    .then(res => res.json())
-    .then(products => {
-      const reversedProducts = products.reverse(); // Show newest products first
-      renderProducts(reversedProducts);
-      setupCart(reversedProducts);
-    })
-    .catch(err => console.error("Failed to load products.json:", err));
+      .header {
+        background-color: #1f3a48;
+        padding: 1rem;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-  function renderProducts(products) {
-    container.innerHTML = '';
-    products.forEach((item, index) => {
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
+      .header-icons {
+        display: flex;
+        gap: 1.2rem;
+      }
+
+      .header-icons span {
+        cursor: pointer;
+        position: relative;
+      }
+
+      #cartCount {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: red;
+        color: white;
+        border-radius: 50%;
+        font-size: 0.7rem;
+        padding: 2px 5px;
+        display: none;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 2rem;
+      }
+
+      .section-title {
+        margin-left: 20px;
+        font-size: 1.2rem;
+        margin-top: 1.5rem;
+        font-weight: bold;
+      }
+
+      .products {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 1rem;
+        gap: 20px;
+      }
+
+      .product-card {
+        width: 160px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .product-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+      }
+
+      .product-name {
+        margin: 10px 0 5px;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .product-price {
+        color: #000;
+        margin-bottom: 5px;
+      }
+
+      .add-btn {
+        border: 1px solid #000;
+        background: #fff;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 10px;
+        font-weight: 750;
+      }
+
+      .all-categories-btn {
+        display: block;
+        margin: 30px auto;
+        padding: 10px 20px;
+        background: #000;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 1rem;
+        font-size: 0.8rem;
+        background: #f8f8f8;
+        border-top: 1px solid #ddd;
+      }
+
+      #cartModal {
+        position: fixed;
+        top: 70px;
+        right: 70px;
+        background: #fff;
+        border: 1px solid #888;
+        z-index: 9999;
+        padding: 20px;
+        min-width: 320px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+      }
+
+      #cartModal ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 10px 0;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      #cartModal li {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+      }
+
+      #cartModal img {
+        width: 30px;
+        height: 30px;
+        border-radius: 3px;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+
+      #cartModal button.remove-btn {
+        margin-left: auto;
+        background: #ff4d4d;
+        border: none;
+        color: white;
+        padding: 2px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      #cartModal button.close-btn {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        border: none;
+        background: #1f3a48;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 8px;
+      }
+
+      #cartModal button.order-btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background: green;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      #ppz,
+      #cartIcon {
+        font-size: 220%;
+        margin: 0;
+        color: white;
+      }
+
+      a {
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      b a {
+        color: #000;
+      }
+      .all-categories-btn a {
+        font-size: 180%;
+        padding: 0 25px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <span
+        ><a href="../"><h1 id="ppz">Pearlz_Petalz</h1></a></span
+      >
+      <div class="header-icons">
+        <span id="cartIcon">🛒<span id="cartCount">0</span></span>
+      </div>
+    </div>
+
+    <h1>Unique Handmade Collections</h1>
+
+    <div class="products" id="productContainer"></div>
+
+    <button class="all-categories-btn">
+      <a href="../Gallery/">Gallery</a>
+    </button>
+
+    <div class="footer">
+      <b> <a href="../">PEARLZ_PETALZ </a></b><br /><br />
+      Copyright © <span id="year"></span> Pearlz_Petalz | All Rights Reserved
+      <br /><br />
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      const imageFolder = "images/Collections/";
+      const container = document.getElementById("productContainer");
+      const cartMap = {};
+
+      // Convert number to Roman numeral
+      function toRoman(num) {
+        const lookup = {
+          M: 1000,
+          CM: 900,
+          D: 500,
+          CD: 400,
+          C: 100,
+          XC: 90,
+          L: 50,
+          XL: 40,
+          X: 10,
+          IX: 9,
+          V: 5,
+          IV: 4,
+          I: 1,
+        };
+        let roman = "";
+        for (let key in lookup) {
+          while (num >= lookup[key]) {
+            roman += key;
+            num -= lookup[key];
+          }
+        }
+        return roman;
+      }
+
+      fetch("products.json")
+        .then((res) => res.json())
+        .then((products) => {
+          const reversedProducts = products.reverse(); // Show newest products first
+          renderProducts(reversedProducts);
+          setupCart(reversedProducts);
+        })
+        .catch((err) => console.error("Failed to load products.json:", err));
+
+      function renderProducts(products) {
+        container.innerHTML = "";
+        products.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.innerHTML = `
         <img src="${imageFolder}${item.image}" alt="${item.name}">
         <div class="product-name">${item.name}</div>
         <div class="product-price">₹${item.price}</div>
         <button class="add-btn" data-index="${index}" data-img="${item.image}">Add to Cart</button>
       `;
-      container.appendChild(card);
-    });
-  }
-
-  function updateCartCount() {
-    const cartCount = document.getElementById('cartCount');
-    const totalQty = Object.values(cartMap).reduce((sum, item) => sum + item.qty, 0);
-    cartCount.textContent = totalQty;
-    cartCount.style.display = totalQty > 0 ? 'inline-block' : 'none';
-  }
-
-  function setupCart(products) {
-    container.addEventListener('click', e => {
-      if (e.target.classList.contains('add-btn')) {
-        const idx = parseInt(e.target.getAttribute('data-index'));
-        const item = products[idx];
-        const img = item.image;
-
-        if (!cartMap[img]) {
-          cartMap[img] = {
-            name: item.name,
-            price: item.price,
-            image: `${imageFolder}${img}`,
-            qty: 1
-          };
-        } else {
-          cartMap[img].qty += 1;
-        }
-        updateCartCount();
+          container.appendChild(card);
+        });
       }
-    });
 
-    document.getElementById('cartIcon').addEventListener('click', showCart);
-  }
+      function updateCartCount() {
+        const cartCount = document.getElementById("cartCount");
+        const totalQty = Object.values(cartMap).reduce(
+          (sum, item) => sum + item.qty,
+          0
+        );
+        cartCount.textContent = totalQty;
+        cartCount.style.display = totalQty > 0 ? "inline-block" : "none";
+      }
 
-  function showCart() {
-    let cartModal = document.getElementById('cartModal');
-    if (!cartModal) {
-      cartModal = document.createElement('div');
-      cartModal.id = 'cartModal';
-      document.body.appendChild(cartModal);
-    }
+      function setupCart(products) {
+        container.addEventListener("click", (e) => {
+          if (e.target.classList.contains("add-btn")) {
+            const idx = parseInt(e.target.getAttribute("data-index"));
+            const item = products[idx];
+            const img = item.image;
 
-    const items = Object.values(cartMap);
-    let content = '<h3>Your Cart</h3><ul id="cartItems">';
-    if (items.length === 0) {
-      content += "<li>No items in cart.</li>";
-    } else {
-      items.forEach(item => {
-        content += `
+            if (!cartMap[img]) {
+              cartMap[img] = {
+                name: item.name,
+                price: item.price,
+                image: `${imageFolder}${img}`,
+                qty: 1,
+              };
+            } else {
+              cartMap[img].qty += 1;
+            }
+            updateCartCount();
+          }
+        });
+
+        document.getElementById("cartIcon").addEventListener("click", showCart);
+      }
+
+      function showCart() {
+        let cartModal = document.getElementById("cartModal");
+        if (!cartModal) {
+          cartModal = document.createElement("div");
+          cartModal.id = "cartModal";
+          document.body.appendChild(cartModal);
+        }
+
+        const items = Object.values(cartMap);
+        let content = '<h3>Your Cart</h3><ul id="cartItems">';
+        if (items.length === 0) {
+          content += "<li>No items in cart.</li>";
+        } else {
+          items.forEach((item) => {
+            content += `
           <li>
             <img src="${item.image}" alt="${item.name}">
             ${item.name} - ₹${item.price} <strong>x${item.qty}</strong>
             <button class="remove-btn" data-img="${item.image}">Delete</button>
           </li>`;
-      });
-    }
-    content += `</ul>
+          });
+        }
+        content += `</ul>
       <button class="order-btn">Order via WhatsApp</button>
       <button class="close-btn">Close</button>`;
-    cartModal.innerHTML = content;
+        cartModal.innerHTML = content;
 
-    cartModal.querySelector('#cartItems').addEventListener('click', e => {
-      if (e.target.classList.contains('remove-btn')) {
-        const imageUrl = e.target.getAttribute('data-img');
-        let key = null;
-        for (const k in cartMap) {
-          if (cartMap[k].image === imageUrl) {
-            key = k;
-            break;
+        cartModal.querySelector("#cartItems").addEventListener("click", (e) => {
+          if (e.target.classList.contains("remove-btn")) {
+            const imageUrl = e.target.getAttribute("data-img");
+            let key = null;
+            for (const k in cartMap) {
+              if (cartMap[k].image === imageUrl) {
+                key = k;
+                break;
+              }
+            }
+            if (key) {
+              cartMap[key].qty -= 1;
+              if (cartMap[key].qty <= 0) {
+                delete cartMap[key];
+              }
+              updateCartCount();
+              showCart();
+            }
           }
-        }
-        if (key) {
-          cartMap[key].qty -= 1;
-          if (cartMap[key].qty <= 0) {
-            delete cartMap[key];
-          }
-          updateCartCount();
-          showCart();
-        }
+        });
+
+        cartModal.querySelector(".close-btn").addEventListener("click", () => {
+          cartModal.remove();
+        });
+
+        cartModal.querySelector(".order-btn").addEventListener("click", () => {
+          const baseURL = "https://wa.me/9539889496?text=";
+          let message = "I am interested in your these products:\n";
+
+          items.forEach((item, idx) => {
+            const imgName = item.image.split("/").pop();
+            const imageURL = `https://www.pearlzpetalz.co.in/pearlz_petalz/images/Collections/${imgName}`;
+            const romanNum = toRoman(idx + 1);
+
+            message += `\n${romanNum}. ${item.name} (x${item.qty})\n   ${imageURL}\n`;
+          });
+
+          const encodedURL = baseURL + encodeURIComponent(message);
+          window.open(encodedURL, "_blank");
+        });
       }
-    });
-
-    cartModal.querySelector('.close-btn').addEventListener('click', () => {
-      cartModal.remove();
-    });
-
-    cartModal.querySelector('.order-btn').addEventListener('click', () => {
-      const baseURL = "https://wa.me/9539889496?text=";
-      let message = "I am interested in your these products:\n";
-
-      items.forEach((item, idx) => {
-        const imgName = item.image.split('/').pop();
-        const imageURL = `https://www.pearlzpetalz.co.in/pearlz_petalz/images/Collections/${imgName}`;
-        const romanNum = toRoman(idx + 1);
-
-        message += `\n${romanNum}. ${item.name} (x${item.qty})\n   ${imageURL}\n`;
-      });
-
-      const encodedURL = baseURL + encodeURIComponent(message);
-      window.open(encodedURL, '_blank');
-    });
-  }
-</script>
-
-</body>
+    </script>
+  </body>
 </html>
