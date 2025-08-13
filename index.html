@@ -3,25 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <title>Pearlz_Petalz</title>
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/index.css">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
   </head>
   <body>
-    <h1 id="type-h1">Pearlz_Petalz</h1>
+    <h1>Pearlz_Petalz</h1>
 
-    <p id="type-p">
+    <p>
       Handcrafted with love and care, my unique, affordable kids' hair bands are
       more than accessories they're trusted keepsakes, made to capture childhood
       moments with quality and heart.
     </p>
 
-    <h3 id="type-h3">Connect with Us</h3>
+    <h3>Connect with Us</h3>
 
-    <div class="social-icons" id="social-icons">
-      <!-- WhatsApp -->
+    <div class="social-icons">
       <a
         href="https://wa.me/919539889496?text=I%20am%20interested%20in%20your%20products"
         title="WhatsApp"
@@ -35,12 +34,10 @@
         />
       </a>
 
-      <!-- Chrome -->
       <a href="pearlz_petalz" title="Chrome">
         <img src="pearlz_petalz/logo.jpg" id="log" class="lodsd" />
       </a>
 
-      <!-- Instagram -->
       <a
         href="https://www.instagram.com/pearlz_petalz"
         title="Instagram"
@@ -89,9 +86,7 @@
 
       <div class="csd">
         <h2>Google Review</h2>
-
         <div class="str">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
-
         <a href="https://g.page/r/CQcvF-ePAr8qEAI/review"
           ><button id="rswr">Review Us</button></a
         >
@@ -103,70 +98,7 @@
     </div>
 
     <script>
-      // Set current year
       document.getElementById("year").textContent = new Date().getFullYear();
-
-      function typeWriter(element, speed = 50, callback) {
-        const text = element.textContent;
-        element.textContent = "";
-        element.style.opacity = 1;
-        if (element.tagName !== "P") {
-          element.style.whiteSpace = "nowrap";
-          element.style.borderRight = "2px solid";
-        } else {
-          element.style.whiteSpace = "normal";
-          element.style.borderRight = "none";
-        }
-
-        let i = 0;
-        const timer = setInterval(() => {
-          element.textContent += text.charAt(i);
-          i++;
-          if (i === text.length) {
-            clearInterval(timer);
-            element.style.borderRight = "none";
-            if (callback) callback();
-          }
-        }, speed);
-      }
-
-      function showIconsSequentially(icons, delay = 500) {
-        icons.forEach((icon, index) => {
-          setTimeout(() => {
-            icon.style.display = "inline-block";
-            icon.style.opacity = 1;
-          }, index * delay);
-        });
-      }
-
-      window.onload = () => {
-        const h1 = document.getElementById("type-h1");
-        const p = document.getElementById("type-p");
-        const h3 = document.getElementById("type-h3");
-        const socialIcons = document.getElementById("social-icons");
-        const iconLinks = socialIcons.querySelectorAll("a");
-        const foot = document.querySelector(".foot");
-
-        iconLinks.forEach((link) => {
-          link.style.display = "none";
-          link.style.opacity = 0;
-        });
-
-        h3.style.opacity = 0;
-        socialIcons.style.opacity = 0;
-        socialIcons.style.width = "0";
-        foot.style.opacity = 0;
-
-        typeWriter(h1, 70, () => {
-          typeWriter(p, 20, () => {
-            h3.classList.add("animate-expand");
-            socialIcons.classList.add("animate-expand");
-            foot.classList.add("animate-slide-up");
-
-            showIconsSequentially(iconLinks, 500);
-          });
-        });
-      };
     </script>
   </body>
 </html>

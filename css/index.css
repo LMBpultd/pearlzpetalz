@@ -9,20 +9,32 @@ body {
   text-align: center;
   font-family: sans-serif;
   padding-top: 50px;
+  opacity: 0;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h1,
 h3 {
-  opacity: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 2px solid;
   margin: 20px auto;
   display: inline-block;
+  white-space: normal;
+  overflow: visible;
+  opacity: 1;
 }
 
 p {
-  opacity: 0;
+  opacity: 1;
   text-align: justify;
   white-space: normal;
   overflow-wrap: break-word;
@@ -33,25 +45,21 @@ p {
 
 .social-icons {
   display: block;
-  width: 0;
-  opacity: 0;
+  width: 100%;
+  opacity: 1;
   margin: 20px auto;
-  transition: all 0.7s ease;
-  overflow: hidden;
 }
 
 .social-icons a {
   margin: 0 15px;
   font-size: 2rem;
-  color: black;
   text-decoration: none;
 }
 
 .foot {
-  opacity: 0;
+  opacity: 1;
   margin-top: 50px;
   padding: 20px;
-  transform: translateY(100px);
 }
 
 .csd {
@@ -64,39 +72,35 @@ p {
   color: gray;
 }
 
-/* Animation classes */
-.animate-expand {
-  animation: expandFadeIn 0.7s ease forwards;
-}
-
-.lodsd{
+.lodsd {
   border-radius: 50%;
 }
 
-@keyframes expandFadeIn {
-  0% {
-    width: 0;
-    opacity: 0;
-  }
-  100% {
-    width: 100%;
-    opacity: 1;
-  }
+.m1r {
+  padding-left: 30px;
 }
 
-.animate-slide-up {
-  animation: slideUpFade 1s ease forwards;
+.str {
+  margin-bottom: 20px;
+  font-size: 29px;
+  color: greenyellow;
+  font-weight: 900;
+  text-shadow: 2px 3px 6px rgb(116, 116, 116);
 }
 
-@keyframes slideUpFade {
-  0% {
-    transform: translateY(100px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+li i {
+  padding: 0 12px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.icon-outline {
+  color: transparent;
+  text-shadow: 0px 0px 0px rgb(0, 0, 0), 0 0px 2px rgb(255, 166, 0),
+    0px 0px 0px rgb(255, 166, 0);
+  -webkit-text-stroke: 0.8px rgb(224, 153, 0);
 }
 
 /* Desktop styles */
@@ -150,10 +154,10 @@ p {
     padding-bottom: 20px;
     user-select: none;
   }
+
   .csd li {
     text-align: left;
     margin-left: 15%;
-    color: black;
     margin-bottom: 15px;
   }
 
@@ -161,10 +165,6 @@ p {
     width: 100%;
     text-align: center;
     color: white;
-  }
-
-  .m1r {
-    padding-left: 30px;
   }
 
   li i a {
@@ -180,33 +180,8 @@ p {
     border-radius: 10px;
     border: 0;
   }
-
-  .str {
-    margin-bottom: 20px;
-    font-size: 29px;
-    color: greenyellow;
-    font-weight: 900;
-    text-shadow: 2px 3px 6px rgb(116, 116, 116);
-  }
-
-  li i {
-    padding: 0 12px;
-  }
-
-  .foot{
-    margin-top: 50px;
-  }
 }
 
-a {
-  text-decoration: none;
-}
-.icon-outline {
-  color: transparent;
-  text-shadow: 0px 0px 0px rgb(0, 0, 0), 0 0px 2px rgb(255, 166, 0),
-    0px 0px 0px rgb(255, 166, 0);
-  -webkit-text-stroke: 0.8px rgb(224, 153, 0); /* Optional fallback */
-}
 /* Mobile styles */
 @media screen and (max-width: 1000px) {
   h1 {
@@ -264,14 +239,15 @@ a {
     text-align: left;
     margin-top: 40px;
   }
+
   li {
-    color: black;
     margin-top: 40px;
   }
 
   .b1r {
     margin-left: -10px;
   }
+
   #rswr {
     margin-top: 45px;
     margin-left: 80px;
@@ -296,6 +272,7 @@ a {
   #cssd li {
     margin-left: -15px;
   }
+
   li i {
     margin-right: 30px;
     font-size: 45px;
@@ -317,4 +294,8 @@ a {
     color: white;
     font-size: 24px;
   }
+}
+
+li {
+  color: transparent;
 }
