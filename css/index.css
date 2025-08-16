@@ -183,11 +183,12 @@ li {
     font-size: 3vw;
     margin-bottom: 20px;
     margin-top: 15px;
+    margin-left: 2vw;
   }
 
   .rev{
     width: fit-content;
-    margin: auto;
+    margin-left: 7vw;
   }
 
   #review{
@@ -203,11 +204,13 @@ li {
   }
 
 #cxcxx{
-  text-align: center;
+  text-align: left;
+  margin-left: 8vw;
 }
 
 .cxc h2{
   margin-bottom: 20px;
+  margin-left: -8.4vw;
 }
 
 i{
@@ -217,18 +220,28 @@ i{
 
 
 .cxc{
-  text-align: center;
   font-size: 1.5vw;
 }
 
 .ql{
-  margin: 0;
+  margin-left: 3vw;
+}
+
+.bh {
+  text-align: left;
+}
+
+#bh{
+  margin-left: 0vw;
 }
 
 .copyr{
   margin-top: 50px;
 }
 
+#bhx{
+  margin-left: 2vw;
+}
 
 
 
@@ -331,7 +344,10 @@ i{
 
   .str{
     font-size: 9vw;
-    margin-bottom: 20px;
+    width: fit-content;
+    margin: auto;    
+    margin-bottom: 30px;
+
   }
 
   .rev{
@@ -346,6 +362,10 @@ i{
     background-color: royalblue;
     border: 0;
     border-radius: 20px;
+  }
+
+  #cvxcx{
+    width: 90%;
   }
 
 }
