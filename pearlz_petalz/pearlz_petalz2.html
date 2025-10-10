@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pearlz Petalz</title>
+  <link rel="stylesheet" href="css/PearlzPetalz.css" />
+   <link rel="icon" type="image/jpeg" href="logo.jpg" />
+   <meta name="description" content="Handcrafted with love and care, my unique, affordable kids' hair bands are more than accessories they're trusted keepsakes, made to capture childhood moments with quality and heart." />
+</head>
+<body>
+  <div class="header">
+    <span><a href="../"><h1 id="ppz">Pearlz_Petalz</h1></a></span>
+    <div class="header-icons">
+      <span id="cartIcon">🛒<span id="cartCount">0</span></span>
+    </div>
+  </div>
+
+  <h1>Unique Handmade Collections</h1>
+  <div class="products" id="productContainer"></div>
+  
+  <div class="pagination">
+    <button class="all-categories-btn" id="prevPage">
+      <a href="pearlz_petalz1.html">← Previous Page</a>
+    </button>
+    <button class="all-categories-btn" id="nextPage" style="display:none;">
+      <a href="pearlz_petalz3.html">Next Page →</a>
+    </button>
+  </div>
+
+  <div class="footer">
+    <b><a href="../">PEARLZ_PETALZ</a></b><br /><br />
+    Copyright © <span id="year"></span> Pearlz_Petalz | All Rights Reserved
+  </div>
+
+  <script src="js/cart.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const imageFolder = "images/Collections/";
+    const container = document.getElementById("productContainer");
+
+    fetch("products.json")
+      .then((res) => res.json())
+      .then((products) => {
+        const reversedProducts = products.reverse();
+        const pageProducts = reversedProducts.slice(36, 72);
+
+        renderProducts(pageProducts, container, imageFolder);
+        setupCart(pageProducts, container, imageFolder);
+
+        // Show Next Page button only if more than 108 products exist
+        if (products.length > 108) {
+          document.getElementById("nextPage").style.display = "inline-block";
+        } else {
+          document.getElementById("nextPage").style.display = "none";
+        }
+      })
+      .catch((err) => console.error("Failed to load products.json:", err));
+  </script>
+
+  <div id="toast">Product added successfully</div>
+</body>
+</html>
