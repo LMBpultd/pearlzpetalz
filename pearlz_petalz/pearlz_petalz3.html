@@ -44,12 +44,12 @@
       .then((res) => res.json())
       .then((products) => {
         const reversedProducts = products.reverse();
-        const pageProducts = reversedProducts.slice(36, 72);
+        const pageProducts = reversedProducts.slice(108, 144);
 
         renderProducts(pageProducts, container, imageFolder);
         setupCart(pageProducts, container, imageFolder);
 
-        // Show Next Page button only if more than 108 products exist
+        // Show Next Page button only if more than 144 products exist
         if (products.length > 144) {
           document.getElementById("nextPage").style.display = "inline-block";
         } else {

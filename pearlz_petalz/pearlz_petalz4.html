@@ -21,10 +21,10 @@
   
   <div class="pagination">
     <button class="all-categories-btn" id="prevPage">
-      <a href="pearlz_petalz1.html">← Previous Page</a>
+      <a href="pearlz_petalz2.html">← Previous Page</a>
     </button>
     <button class="all-categories-btn" id="nextPage" style="display:none;">
-      <a href="pearlz_petalz3.html">Next Page →</a>
+      <a href="pearlz_petalz4.html">Next Page →</a>
     </button>
   </div>
 
@@ -44,13 +44,13 @@
       .then((res) => res.json())
       .then((products) => {
         const reversedProducts = products.reverse();
-        const pageProducts = reversedProducts.slice(72, 108);
+        const pageProducts = reversedProducts.slice(144, 180);
 
         renderProducts(pageProducts, container, imageFolder);
         setupCart(pageProducts, container, imageFolder);
 
-        // Show Next Page button only if more than 108 products exist
-        if (products.length > 108) {
+        // Show Next Page button only if more than 180 products exist
+        if (products.length > 180) {
           document.getElementById("nextPage").style.display = "inline-block";
         } else {
           document.getElementById("nextPage").style.display = "none";
