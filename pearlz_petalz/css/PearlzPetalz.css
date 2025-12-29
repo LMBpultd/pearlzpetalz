@@ -1,9 +1,11 @@
+/* ==================== 1. അടിസ്ഥാന സ്റ്റൈലുകൾ (General Styles) ==================== */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   background: #fff;
   color: #000;
 }
+
 .header {
   background-color: #1f3a48;
   padding: 1rem;
@@ -12,14 +14,23 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
 .header-icons {
   display: flex;
   gap: 1.2rem;
 }
+
 .header-icons span {
   cursor: pointer;
   position: relative;
 }
+
+#ppz, #cartIcon {
+  font-size: 220%;
+  margin: 0;
+  color: white;
+}
+
 #cartCount {
   position: absolute;
   top: -8px;
@@ -31,27 +42,39 @@ body {
   padding: 2px 5px;
   display: none;
 }
+
 h1 {
   text-align: center;
   margin-top: 2rem;
 }
 
-/* Product Grid */
+a {
+  text-decoration: none;
+  font-weight: 700;
+}
+
+/* ==================== 2. പ്രോഡക്റ്റ് ഗ്രിഡ് (Product Grid) ==================== */
 .products {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Default 3 per row */
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr); /* മൊബൈലിൽ വരിയിൽ 2 എണ്ണം */
+  gap: 15px;
   justify-content: center;
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 1rem;
 }
 
-/* 6 per row when viewport >= 1000px */
+/* വലിയ സ്ക്രീനുകളിൽ (PC/Laptop) 6 എണ്ണം വീതം കാണിക്കാൻ */
 @media (min-width: 1000px) {
   .products {
     grid-template-columns: repeat(6, 1fr);
-    max-width: 1400px; /* optional for better fit */
+  }
+}
+
+/* ഇടത്തരം സ്ക്രീനുകളിൽ (Tablets) 3 എണ്ണം വീതം */
+@media (min-width: 600px) and (max-width: 999px) {
+  .products {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -61,21 +84,32 @@ h1 {
   text-align: center;
   border-radius: 6px;
   background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.product-card img {
+
+/* ഇമേജും വീഡിയോയും ഒരേ സ്ക്വയർ സൈസിൽ വരാൻ */
+.product-media {
   width: 100%;
-  height: auto;
+  aspect-ratio: 1 / 1; 
+  object-fit: cover;
   border-radius: 5px;
+  cursor: pointer;
+  background-color: #f0f0f0;
 }
+
 .product-name {
   margin: 10px 0 5px;
   font-weight: bold;
   font-size: 14px;
 }
+
 .product-price {
   color: #000;
   margin-bottom: 5px;
 }
+
 .add-btn {
   border: 1px solid #000;
   background: #fff;
@@ -85,18 +119,124 @@ h1 {
   font-weight: 750;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .products {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* ==================== 3. കാർട്ട് മോഡൽ (Cart Modal) ==================== */
+#cartModal {
+  position: fixed;
+  top: 70px;
+  right: 10px;
+  background: #fff;
+  border: 1px solid #888;
+  z-index: 9999;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  border-radius: 8px;
+  
+  /* മൊബൈലിൽ സ്ക്രീനിന്റെ 80% വീതി */
+  width: 80vw; 
 }
-@media (max-width: 480px) {
-  .products {
-    grid-template-columns: repeat(2, 1fr);
+
+/* PC, ലാപ്ടോപ്പ്, ടാബ്‌ലെറ്റ് എന്നിവയ്ക്കായി (768px-ന് മുകളിൽ) */
+@media (min-width: 768px) {
+  #cartModal {
+    width: 400px; /* PC-യിൽ 400px മാത്രം */
+    right: 20px;
   }
 }
 
+#cartModal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+#cartModal li {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+#cartModal img {
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  margin-right: 10px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+#cartModal .remove-btn {
+  margin-left: auto;
+  background: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#cartModal .order-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#cartModal .close-btn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  background: #1f3a48;
+  color: white;
+  border-radius: 4px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+/* ==================== 4. ഫുൾ സ്ക്രീൻ മോഡൽ (Full Screen) ==================== */
+#fullScreenModal {
+  display: none;
+  position: fixed;
+  z-index: 10001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  justify-content: center;
+  align-items: center;
+}
+
+#fullScreenContent {
+  max-width: 95%;
+  max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#fullScreenContent img, #fullScreenContent video {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: 5px;
+}
+
+.close-fullscreen {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+/* ==================== 5. മറ്റു ഘടകങ്ങൾ (Footer, Toast, etc.) ==================== */
 .all-categories-btn {
   display: block;
   margin: 30px auto;
@@ -107,6 +247,7 @@ h1 {
   border-radius: 20px;
   cursor: pointer;
 }
+
 .footer {
   text-align: center;
   padding: 1rem;
@@ -114,96 +255,7 @@ h1 {
   background: #f8f8f8;
   border-top: 1px solid #ddd;
 }
-#cartModal {
-  position: fixed;
-  top: 70px;
-  right: 70px;
-  background: #fff;
-  border: 1px solid #888;
-  z-index: 9999;
-  padding: 20px;
-  min-width: 320px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
-}
-#cartModal ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 10px 0;
-  max-height: 400px;
-  overflow-y: auto;
-}
-#cartModal li {
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-}
-#cartModal img {
-  width: 30px;
-  height: 30px;
-  border-radius: 3px;
-  margin-right: 10px;
-  flex-shrink: 0;
-}
-#cartModal button.remove-btn {
-  margin-left: auto;
-  background: #ff4d4d;
-  border: none;
-  color: white;
-  padding: 2px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-}
-#cartModal button.close-btn {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  border: none;
-  background: #1f3a48;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 8px;
-}
-#cartModal button.order-btn {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-#ppz,
-#cartIcon {
-  font-size: 220%;
-  margin: 0;
-  color: white;
-}
-a {
-  text-decoration: none;
-  font-weight: 700;
-}
-b a {
-  color: #000;
-}
-.all-categories-btn a {
-  font-size: 180%;
-  padding: 0 25px;
-  color: white;
-}
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  margin: 30px auto;
-}
 
-/* Toast Notification */
 #toast {
   visibility: hidden;
   min-width: 200px;
@@ -217,13 +269,77 @@ b a {
   left: 50%;
   bottom: 30px;
   transform: translateX(-50%);
-  font-size: 14px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   opacity: 0;
   transition: opacity 0.5s, bottom 0.5s;
 }
+
 #toast.show {
   visibility: visible;
   opacity: 1;
   bottom: 50px;
+}
+
+.pagination{
+  width: 100%;
+  display: flex;
+}
+
+.pagination button{
+  width: fit-content;
+  min-width: 150px;
+}
+
+#plg {
+    font-family: 'Playfair Display', serif; /* ഒരു സ്റ്റൈലിഷ് ഫോണ്ട് */
+    font-size: 2rem;
+    font-weight: 800;
+    color: #f1c40f; /* ഗോൾഡൻ നിറം */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to right, #f1c40f, #e67e22);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+#plg:hover {
+    transform: scale(1.05); 
+}
+
+#ppz {
+    font-family: 'Playfair Display', serif; /* ഒരു സ്റ്റൈലിഷ് ഫോണ്ട് */
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #f1c40f; /* ഗോൾഡൻ നിറം */
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to right, #f1c40f, #e67e22);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease;
+    display: inline-block;
+    padding-bottom: 10px;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+  #ppz{
+    padding-top: 5px;
+  }
+}
+
+/* PC, ലാപ്ടോപ്പ്, ടാബ്‌ലെറ്റ് എന്നിവയ്ക്കായി (768px-ന് മുകളിൽ) */
+@media (min-width: 768px) {
+ 
+#plg {
+    font-size: 2.5rem;
+}
+
+#ppz {
+    font-size: 2.5rem;
+}
 }

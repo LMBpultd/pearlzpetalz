@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pearlz Petalz</title>
   <link rel="stylesheet" href="css/PearlzPetalz.css" />
-   <link rel="icon" type="image/jpeg" href="logo.jpg" />
-   <meta name="description" content="Handcrafted with love and care, my unique, affordable kids' hair bands are more than accessories they're trusted keepsakes, made to capture childhood moments with quality and heart." />
+  <link rel="icon" type="image/jpeg" href="logo.jpg" />
+  <meta name="description" content="Handcrafted kids' hair bands and accessories." />
 </head>
 <body>
+
   <div class="header">
     <span><a href="../"><h1 id="ppz">Pearlz_Petalz</h1></a></span>
     <div class="header-icons">
@@ -17,34 +18,131 @@
   </div>
 
   <h1>Unique Handmade Collections</h1>
+
   <div class="products" id="productContainer"></div>
+
   <div class="pagination">
-    <button class="all-categories-btn"><a href="pearlz_petalz1.html">Next Page →</a></button>
+    <button class="all-categories-btn"><a href="pearlz_petalz1.html" style="color: azure;">Next Page →</a></button>
+  </div>
+
+  <div id="fullScreenModal">
+    <span class="close-fullscreen" onclick="closeFullScreen()">&times;</span>
+    <div id="fullScreenContent"></div>
   </div>
 
   <div class="footer">
-    <b><a href="../">PEARLZ_PETALZ</a></b><br /><br />
+    <b><a href="../" id="plg">PEARLZ_PETALZ</a></b><br /><br />
     Copyright © <span id="year"></span> Pearlz_Petalz | All Rights Reserved
   </div>
 
-  <script src="js/cart.js"></script>
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    const imageFolder = "images/Collections/";
-    const container = document.getElementById("productContainer");
-
-    fetch("products.json")
-      .then((res) => res.json())
-      .then((products) => {
-        const reversedProducts = products.reverse();
-        const pageProducts = reversedProducts.slice(0, 36);
-        renderProducts(pageProducts, container, imageFolder);
-        setupCart(pageProducts, container, imageFolder);
-      })
-      .catch((err) => console.error("Failed to load products.json:", err));
-  </script>
   <div id="toast">Product added successfully</div>
 
+  <script src="js/cart.js"></script>
+ <script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+  const imageFolder = "images/Collections/";
+  const container = document.getElementById("productContainer");
+
+  function renderProducts(products, container, folder) {
+    container.innerHTML = "";
+    if (products.length === 0) {
+      container.innerHTML = "<p>No products found!</p>";
+      return;
+    }
+
+    products.forEach((item, index) => {
+      if (!item.file) return;
+
+      const mediaContainerId = `media-${index}`;
+      const baseFileName = item.file; // JSON-ൽ നൽകിയ ഫയൽ പേര്
+      
+      // വിവിധ ഫയൽ പാത്തുകൾ
+      const jpgPath = `${folder}${baseFileName}.jpg`;
+      const jpegPath = `${folder}${baseFileName}.jpeg`;
+      const pngPath = `${folder}${baseFileName}.png`;
+      const videoPath = `${folder}${baseFileName}.mp4`;
+
+      const card = document.createElement("div");
+      card.className = "product-card";
+      
+      /* Logic: ആദ്യം .jpg നോക്കും, അത് പരാജയപ്പെട്ടാൽ .jpeg നോക്കും, 
+         അതും പരാജയപ്പെട്ടാൽ .png നോക്കും, എല്ലാം പരാജയപ്പെട്ടാൽ വീഡിയോ പ്ലേ ചെയ്യും.
+      */
+      card.innerHTML = `
+        <div id="${mediaContainerId}">
+          <img class="product-media" 
+               src="${jpgPath}" 
+               alt="${item.name}" 
+               onerror="checkNextFormat(this, '${jpegPath}', '${pngPath}', '${videoPath}', '${mediaContainerId}')" 
+               onclick="openFullScreen(this.src, false)">
+        </div>
+        <div class="product-name">${item.name || 'No Name'}</div>
+        <div class="product-price">₹${item.price || '0'}</div>
+        <button class="add-btn" data-index="${index}" data-img="${item.file}">Add to Cart</button>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // ഇമേജ് ഫോർമാറ്റുകൾ ഓരോന്നായി ചെക്ക് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
+  function checkNextFormat(imgElement, jpeg, png, video, containerId) {
+    if (imgElement.src.endsWith('.jpg')) {
+      imgElement.src = jpeg; // .jpg പരാജയപ്പെട്ടാൽ .jpeg നോക്കുന്നു
+    } else if (imgElement.src.endsWith('.jpeg')) {
+      imgElement.src = png; // .jpeg പരാജയപ്പെട്ടാൽ .png നോക്കുന്നു
+    } else {
+      // എല്ലാ ഇമേജ് ഫോർമാറ്റും പരാജയപ്പെട്ടാൽ വീഡിയോ ലോഡ് ചെയ്യുന്നു
+      tryLoadingVideo(video, containerId);
+    }
+  }
+
+  function tryLoadingVideo(videoSrc, containerId) {
+    const mediaContainer = document.getElementById(containerId);
+    if (mediaContainer) {
+      mediaContainer.innerHTML = `
+        <video class="product-media" autoplay muted loop playsinline onclick="openFullScreen('${videoSrc}', true)">
+          <source src="${videoSrc}" type="video/mp4">
+        </video>`;
+    }
+  }
+
+  function openFullScreen(src, isVideo) {
+    const modal = document.getElementById("fullScreenModal");
+    const content = document.getElementById("fullScreenContent");
+    if(!modal || !content) return;
+
+    modal.style.display = "flex";
+    if (isVideo) {
+      content.innerHTML = `<video controls autoplay style="max-width:100%; max-height:90vh;"><source src="${src}" type="video/mp4"></video>`;
+    } else {
+      content.innerHTML = `<img src="${src}" style="max-width:100%; max-height:90vh;">`;
+    }
+  }
+
+  function closeFullScreen() {
+    const modal = document.getElementById("fullScreenModal");
+    if(modal) modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById("fullScreenModal");
+    if (event.target == modal) closeFullScreen();
+  }
+
+  fetch("products.json")
+    .then(res => res.json())
+    .then(products => {
+      const reversedProducts = [...products].reverse();
+      const pageProducts = reversedProducts.slice(0, 36); 
+      renderProducts(pageProducts, container, imageFolder);
+      
+      if(typeof setupCart === 'function') {
+        setupCart(pageProducts, container, imageFolder);
+      }
+    })
+    .catch(err => {
+      console.error("Error loading JSON:", err);
+    });
+</script>
 </body>
 </html>

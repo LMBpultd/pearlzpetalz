@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pearlz Petalz</title>
   <link rel="stylesheet" href="css/PearlzPetalz.css" />
-   <link rel="icon" type="image/jpeg" href="logo.jpg" />
-   <meta name="description" content="Handcrafted with love and care, my unique, affordable kids' hair bands are more than accessories they're trusted keepsakes, made to capture childhood moments with quality and heart." />
+  <link rel="icon" type="image/jpeg" href="logo.jpg" />
+  <meta name="description" content="Handcrafted with love and care, my unique, affordable kids' hair bands are more than accessories they're trusted keepsakes, made to capture childhood moments with quality and heart." />
 </head>
 <body>
   <div class="header">
@@ -21,17 +21,24 @@
   
   <div class="pagination">
     <button class="all-categories-btn" id="prevPage">
-      <a href="pearlz_petalz2.html">← Previous Page</a>
+      <a href="pearlz_petalz2.html" style="color: azure;">← Previous Page</a>
     </button>
     <button class="all-categories-btn" id="nextPage" style="display:none;">
-      <a href="pearlz_petalz4.html">Next Page →</a>
+      <a href="pearlz_petalz4.html" style="color: azure;">Next Page →</a>
     </button>
   </div>
 
+  <div id="fullScreenModal">
+    <span class="close-fullscreen" onclick="closeFullScreen()">&times;</span>
+    <div id="fullScreenContent"></div>
+  </div>
+
   <div class="footer">
-    <b><a href="../">PEARLZ_PETALZ</a></b><br /><br />
+    <b><a href="../" id="plg">PEARLZ_PETALZ</a></b><br /><br />
     Copyright © <span id="year"></span> Pearlz_Petalz | All Rights Reserved
   </div>
+
+  <div id="toast">Product added successfully</div>
 
   <script src="js/cart.js"></script>
   <script>
@@ -40,16 +47,104 @@
     const imageFolder = "images/Collections/";
     const container = document.getElementById("productContainer");
 
+    // 1. പ്രോഡക്റ്റുകൾ ലിസ്റ്റ് ചെയ്യാനുള്ള ഫംഗ്‌ഷൻ
+    function renderProducts(products, container, folder) {
+      container.innerHTML = "";
+      if (products.length === 0) {
+        container.innerHTML = "<p>No products found!</p>";
+        return;
+      }
+
+      products.forEach((item, index) => {
+        if (!item.file) return;
+
+        const mediaContainerId = `media-${index}`;
+        const baseFileName = item.file;
+        
+        const jpgPath = `${folder}${baseFileName}.jpg`;
+        const jpegPath = `${folder}${baseFileName}.jpeg`;
+        const pngPath = `${folder}${baseFileName}.png`;
+        const videoPath = `${folder}${baseFileName}.mp4`;
+
+        const card = document.createElement("div");
+        card.className = "product-card";
+        
+        card.innerHTML = `
+          <div id="${mediaContainerId}">
+            <img class="product-media" 
+                 src="${jpgPath}" 
+                 alt="${item.name}" 
+                 onerror="checkNextFormat(this, '${jpegPath}', '${pngPath}', '${videoPath}', '${mediaContainerId}')" 
+                 onclick="openFullScreen(this.src, false)">
+          </div>
+          <div class="product-name">${item.name || 'No Name'}</div>
+          <div class="product-price">₹${item.price || '0'}</div>
+          <button class="add-btn" data-index="${index}" data-img="${item.file}">Add to Cart</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 2. ഫോർമാറ്റുകൾ ഓരോന്നായി പരിശോധിക്കാനുള്ള ഫംഗ്‌ഷൻ
+    function checkNextFormat(imgElement, jpeg, png, video, containerId) {
+      if (imgElement.src.endsWith('.jpg')) {
+        imgElement.src = jpeg;
+      } else if (imgElement.src.endsWith('.jpeg')) {
+        imgElement.src = png;
+      } else {
+        tryLoadingVideo(video, containerId);
+      }
+    }
+
+    // 3. വീഡിയോ ലോഡ് ചെയ്യാനുള്ള ഫംഗ്‌ഷൻ
+    function tryLoadingVideo(videoSrc, containerId) {
+      const mediaContainer = document.getElementById(containerId);
+      if (mediaContainer) {
+        mediaContainer.innerHTML = `
+          <video class="product-media" autoplay muted loop playsinline onclick="openFullScreen('${videoSrc}', true)">
+            <source src="${videoSrc}" type="video/mp4">
+          </video>`;
+      }
+    }
+
+    // 4. ഫുൾ സ്ക്രീൻ ഫംഗ്‌ഷനുകൾ
+    function openFullScreen(src, isVideo) {
+      const modal = document.getElementById("fullScreenModal");
+      const content = document.getElementById("fullScreenContent");
+      if(!modal || !content) return;
+
+      modal.style.display = "flex";
+      if (isVideo) {
+        content.innerHTML = `<video controls autoplay style="max-width:100%; max-height:90vh;"><source src="${src}" type="video/mp4"></video>`;
+      } else {
+        content.innerHTML = `<img src="${src}" style="max-width:100%; max-height:90vh;">`;
+      }
+    }
+
+    function closeFullScreen() {
+      const modal = document.getElementById("fullScreenModal");
+      if(modal) modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("fullScreenModal");
+      if (event.target == modal) closeFullScreen();
+    }
+
+    // 5. ഡാറ്റ ഫെച്ച് ചെയ്ത് സ്ലൈസ് ചെയ്യുന്നു (108 മുതൽ 144 വരെ)
     fetch("products.json")
       .then((res) => res.json())
       .then((products) => {
-        const reversedProducts = products.reverse();
+        const reversedProducts = [...products].reverse();
         const pageProducts = reversedProducts.slice(108, 144);
 
         renderProducts(pageProducts, container, imageFolder);
-        setupCart(pageProducts, container, imageFolder);
+        
+        if(typeof setupCart === 'function') {
+           setupCart(pageProducts, container, imageFolder);
+        }
 
-        // Show Next Page button only if more than 144 products exist
+        // 72 ഉൽപ്പന്നങ്ങളിൽ കൂടുതൽ ഉണ്ടെങ്കിൽ മാത്രം Next ബട്ടൺ കാണിക്കുന്നു
         if (products.length > 144) {
           document.getElementById("nextPage").style.display = "inline-block";
         } else {
@@ -58,7 +153,5 @@
       })
       .catch((err) => console.error("Failed to load products.json:", err));
   </script>
-
-  <div id="toast">Product added successfully</div>
 </body>
 </html>
