@@ -126,7 +126,7 @@
   { "image": "125.jpg", "name": "Baby Hair band ", "price": 60 },
   { "image": "126.jpg", "name": "Baby Hair band ", "price": 50 },
   { "image": "127.jpg", "name": "Chembakam Clip ", "price": 40 },
-  { "image": "128.mp4", "name": "Baby Hair band ", "price": 50 }
+  { "file": "128.mp4", "name": "Baby Hair band ", "price": 50 }
   
   
   
@@ -192,5 +192,6 @@
 
   
 ]
+
 
 
