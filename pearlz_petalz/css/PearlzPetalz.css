@@ -59,7 +59,7 @@ a {
   grid-template-columns: repeat(2, 1fr); /* മൊബൈലിൽ വരിയിൽ 2 എണ്ണം */
   gap: 15px;
   justify-content: center;
-  max-width: 1400px;
+  width: 90%;
   margin: 0 auto;
   padding: 1rem;
 }
@@ -67,14 +67,14 @@ a {
 /* വലിയ സ്ക്രീനുകളിൽ (PC/Laptop) 6 എണ്ണം വീതം കാണിക്കാൻ */
 @media (min-width: 1000px) {
   .products {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
   }
 }
 
 /* ഇടത്തരം സ്ക്രീനുകളിൽ (Tablets) 3 എണ്ണം വീതം */
 @media (min-width: 600px) and (max-width: 999px) {
   .products {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -123,17 +123,17 @@ a {
 #cartModal {
   position: fixed;
   top: 70px;
-  right: 10px;
+  right: calc(10vw - 20px);
   background: #fff;
   border: 1px solid #888;
   z-index: 9999;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
   border-radius: 8px;
-  
-  /* മൊബൈലിൽ സ്ക്രീനിന്റെ 80% വീതി */
-  width: 80vw; 
+  width: 80vw;
 }
+
+
 
 /* PC, ലാപ്ടോപ്പ്, ടാബ്‌ലെറ്റ് എന്നിവയ്ക്കായി (768px-ന് മുകളിൽ) */
 @media (min-width: 768px) {
@@ -279,19 +279,49 @@ a {
   bottom: 50px;
 }
 
-.pagination{
-  width: 100%;
-  display: flex;
-}
-
 .pagination button{
   width: fit-content;
   min-width: 150px;
 }
 
+/* പിസി വ്യൂവിനുള്ള പൊതുവായ സ്റ്റൈൽ (768px-ന് മുകളിൽ) */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+/* മൊബൈൽ വ്യൂവിനായുള്ള മാറ്റങ്ങൾ (768px-ന് താഴെ) */
+@media (max-width: 768px) {
+  .pagination {
+    display: flex;
+    flex-wrap: wrap; /* എലമെന്റുകൾ താഴേക്ക് വരാൻ അനുവദിക്കുന്നു */
+    justify-content: center;
+    align-items: center;
+  }
+
+  #pageInfo {
+    width: 100%; /* മൊബൈലിൽ പേജ് ഇൻഫോ ഒരു വരി മുഴുവനായി എടുക്കും */
+    text-align: center;
+    order: -1; /* ഇത് നൽകുന്നതിലൂടെ പേജ് ഇൻഫോ ബട്ടണുകൾക്ക് മുകളിലായി കാണപ്പെടും */
+    margin-bottom: 15px; /* ബട്ടണുകളിൽ നിന്നുള്ള അകലം */
+  }
+
+  .pagination a {
+    display: inline-block; /* ബട്ടണുകൾ ഒരേ വരിയിൽ വരാൻ */
+  }
+
+  .all-categories-btn {
+    min-width: 140px; /* മൊബൈലിൽ ബട്ടണുകൾക്ക് അനുയോജ്യമായ വീതി */
+    margin: 0 5px !important;
+  }
+}
+
 #plg {
     font-family: 'Playfair Display', serif; /* ഒരു സ്റ്റൈലിഷ് ഫോണ്ട് */
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 800;
     color: #f1c40f; /* ഗോൾഡൻ നിറം */
     text-transform: uppercase;
@@ -303,6 +333,7 @@ a {
     transition: transform 0.3s ease;
     display: inline-block;
     padding-bottom: 10px;
+    transition: font-size 0.4s ease, transform 0.3s ease;
 }
 
 #plg:hover {
@@ -310,36 +341,67 @@ a {
 }
 
 #ppz {
-    font-family: 'Playfair Display', serif; /* ഒരു സ്റ്റൈലിഷ് ഫോണ്ട് */
-    font-size: 1.6rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
     font-weight: 800;
-    color: #f1c40f; /* ഗോൾഡൻ നിറം */
+    color: #f1c40f;
     text-transform: uppercase;
     letter-spacing: 2.5px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     background: linear-gradient(to right, #f1c40f, #e67e22);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: transform 0.3s ease;
     display: inline-block;
     padding-bottom: 10px;
     font-style: italic;
+    transition: font-size 0.4s ease, transform 0.3s ease;
 }
 
 @media (max-width: 768px) {
+  #ppz {
+    padding-top: 5px;
+    font-size: 2rem;
+  }
+    #plg {
+    font-size: 2rem;
+}
+
+}
+@media (max-width: 540px) {
   #ppz{
     padding-top: 5px;
+    font-size: 1.6rem;
   }
+
 }
 
-/* PC, ലാപ്ടോപ്പ്, ടാബ്‌ലെറ്റ് എന്നിവയ്ക്കായി (768px-ന് മുകളിൽ) */
-@media (min-width: 768px) {
- 
-#plg {
-    font-size: 2.5rem;
+
+
+.floating-cart {
+  position: fixed;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  right: calc(16px + env(safe-area-inset-right));
+  background-color: #000000;
+  color: white;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 9999;
+  transition: opacity 0.3s, transform 0.3s;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
 }
 
-#ppz {
-    font-size: 2.5rem;
+.floating-cart.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
 }
-}
+

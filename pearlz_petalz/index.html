@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pearlz Petalz</title>
+  <title>Pearlz Petalz | Handmade Collections</title>
   <link rel="stylesheet" href="css/PearlzPetalz.css" />
   <link rel="icon" type="image/jpeg" href="logo.jpg" />
   <meta name="description" content="Handcrafted kids' hair bands and accessories." />
@@ -21,8 +21,18 @@
 
   <div class="products" id="productContainer"></div>
 
-  <div class="pagination">
-    <button class="all-categories-btn"><a href="pearlz_petalz1.html" style="color: azure;">Next Page →</a></button>
+  <div id="floatingCart" class="floating-cart" onclick="showCart()">
+    🛒<span id="floatingCartCount">0</span>
+  </div>
+
+  <div class="pagination" style="text-align: center;">
+    <a href="#" id="prevLink" style="color: azure; text-decoration: none;">
+      <button id="prevPage" class="all-categories-btn" style="display:none; margin-right: 10px;">← Previous Page</button>
+    </a>
+    <span id="pageInfo" style="font-weight: bold; margin: 0 15px;"></span>
+    <a href="#" id="nextLink" style="color: azure; text-decoration: none;">
+      <button id="nextPage" class="all-categories-btn" style="display:none; margin-left: 10px;">Next Page → </button>
+    </a>
   </div>
 
   <div id="fullScreenModal">
@@ -38,111 +48,123 @@
   <div id="toast">Product added successfully</div>
 
   <script src="js/cart.js"></script>
- <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-  const imageFolder = "images/Collections/";
-  const container = document.getElementById("productContainer");
+  <script>
+    // കറന്റ് ഇയർ സെറ്റ് ചെയ്യുന്നു
+    document.getElementById("year").textContent = new Date().getFullYear();
+    
+    const imageFolder = "images/Collections/";
+    const container = document.getElementById("productContainer");
+    
+    // URL-ൽ നിന്ന് പേജ് നമ്പർ കണ്ടെത്തുന്നു
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentPage = parseInt(urlParams.get('page')) || 1;
+    const productsPerPage = 42;
 
-  function renderProducts(products, container, folder) {
-    container.innerHTML = "";
-    if (products.length === 0) {
-      container.innerHTML = "<p>No products found!</p>";
-      return;
-    }
-
-    products.forEach((item, index) => {
-      if (!item.file) return;
-
-      const mediaContainerId = `media-${index}`;
-      const baseFileName = item.file; // JSON-ൽ നൽകിയ ഫയൽ പേര്
-      
-      // വിവിധ ഫയൽ പാത്തുകൾ
-      const jpgPath = `${folder}${baseFileName}.jpg`;
-      const jpegPath = `${folder}${baseFileName}.jpeg`;
-      const pngPath = `${folder}${baseFileName}.png`;
-      const videoPath = `${folder}${baseFileName}.mp4`;
-
-      const card = document.createElement("div");
-      card.className = "product-card";
-      
-      /* Logic: ആദ്യം .jpg നോക്കും, അത് പരാജയപ്പെട്ടാൽ .jpeg നോക്കും, 
-         അതും പരാജയപ്പെട്ടാൽ .png നോക്കും, എല്ലാം പരാജയപ്പെട്ടാൽ വീഡിയോ പ്ലേ ചെയ്യും.
-      */
-      card.innerHTML = `
-        <div id="${mediaContainerId}">
-          <img class="product-media" 
-               src="${jpgPath}" 
-               alt="${item.name}" 
-               onerror="checkNextFormat(this, '${jpegPath}', '${pngPath}', '${videoPath}', '${mediaContainerId}')" 
-               onclick="openFullScreen(this.src, false)">
-        </div>
-        <div class="product-name">${item.name || 'No Name'}</div>
-        <div class="product-price">₹${item.price || '0'}</div>
-        <button class="add-btn" data-index="${index}" data-img="${item.file}">Add to Cart</button>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  // ഇമേജ് ഫോർമാറ്റുകൾ ഓരോന്നായി ചെക്ക് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
-  function checkNextFormat(imgElement, jpeg, png, video, containerId) {
-    if (imgElement.src.endsWith('.jpg')) {
-      imgElement.src = jpeg; // .jpg പരാജയപ്പെട്ടാൽ .jpeg നോക്കുന്നു
-    } else if (imgElement.src.endsWith('.jpeg')) {
-      imgElement.src = png; // .jpeg പരാജയപ്പെട്ടാൽ .png നോക്കുന്നു
-    } else {
-      // എല്ലാ ഇമേജ് ഫോർമാറ്റും പരാജയപ്പെട്ടാൽ വീഡിയോ ലോഡ് ചെയ്യുന്നു
-      tryLoadingVideo(video, containerId);
-    }
-  }
-
-  function tryLoadingVideo(videoSrc, containerId) {
-    const mediaContainer = document.getElementById(containerId);
-    if (mediaContainer) {
-      mediaContainer.innerHTML = `
-        <video class="product-media" autoplay muted loop playsinline onclick="openFullScreen('${videoSrc}', true)">
-          <source src="${videoSrc}" type="video/mp4">
-        </video>`;
-    }
-  }
-
-  function openFullScreen(src, isVideo) {
-    const modal = document.getElementById("fullScreenModal");
-    const content = document.getElementById("fullScreenContent");
-    if(!modal || !content) return;
-
-    modal.style.display = "flex";
-    if (isVideo) {
-      content.innerHTML = `<video controls autoplay style="max-width:100%; max-height:90vh;"><source src="${src}" type="video/mp4"></video>`;
-    } else {
-      content.innerHTML = `<img src="${src}" style="max-width:100%; max-height:90vh;">`;
-    }
-  }
-
-  function closeFullScreen() {
-    const modal = document.getElementById("fullScreenModal");
-    if(modal) modal.style.display = "none";
-  }
-
-  window.onclick = function(event) {
-    const modal = document.getElementById("fullScreenModal");
-    if (event.target == modal) closeFullScreen();
-  }
-
-  fetch("products.json")
-    .then(res => res.json())
-    .then(products => {
-      const reversedProducts = [...products].reverse();
-      const pageProducts = reversedProducts.slice(0, 36); 
-      renderProducts(pageProducts, container, imageFolder);
-      
-      if(typeof setupCart === 'function') {
-        setupCart(pageProducts, container, imageFolder);
+    // പ്രോഡക്റ്റുകൾ ലിസ്റ്റ് ചെയ്യാനുള്ള ഫംഗ്‌ഷൻ
+    function renderProducts(products, container, folder) {
+      container.innerHTML = "";
+      if (products.length === 0) {
+        container.innerHTML = "<p>No products found!</p>";
+        return;
       }
-    })
-    .catch(err => {
-      console.error("Error loading JSON:", err);
-    });
+      products.forEach((item, index) => {
+        if (!item.file) return;
+        const mediaContainerId = `media-${index}`;
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <div id="${mediaContainerId}">
+            <img class="product-media" src="${folder}${item.file}.jpg" 
+                 onerror="checkNextFormat(this, '${folder}${item.file}.jpeg', '${folder}${item.file}.png', '${folder}${item.file}.mp4', '${mediaContainerId}')" 
+                 onclick="openFullScreen(this.src, false)">
+          </div>
+          <div class="product-name">${item.name || 'No Name'}</div>
+          <div class="product-price">₹${item.price || '0'}</div>
+          <button class="add-btn" data-index="${index}">Add to Cart</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // ഇമേജ് ഫോർമാറ്റുകൾ ഓരോന്നായി ചെക്ക് ചെയ്യുന്നു
+    function checkNextFormat(imgElement, jpeg, png, video, containerId) {
+      if (imgElement.src.endsWith('.jpg')) imgElement.src = jpeg;
+      else if (imgElement.src.endsWith('.jpeg')) imgElement.src = png;
+      else tryLoadingVideo(video, containerId);
+    }
+
+    // വീഡിയോ ലോഡ് ചെയ്യാനുള്ള ഫംഗ്‌ഷൻ
+    function tryLoadingVideo(videoSrc, containerId) {
+      const mediaContainer = document.getElementById(containerId);
+      if (mediaContainer) {
+        mediaContainer.innerHTML = `<video class="product-media" autoplay muted loop playsinline onclick="openFullScreen('${videoSrc}', true)"><source src="${videoSrc}" type="video/mp4"></video>`;
+      }
+    }
+
+    // ഫുൾ സ്ക്രീൻ വ്യൂ ഓപ്പൺ ചെയ്യാൻ
+    function openFullScreen(src, isVideo) {
+      const modal = document.getElementById("fullScreenModal");
+      const content = document.getElementById("fullScreenContent");
+      modal.style.display = "flex";
+      content.innerHTML = isVideo ? `<video controls autoplay style="max-height:90vh;"><source src="${src}" type="video/mp4"></video>` : `<img src="${src}" style="max-height:90vh;">`;
+    }
+
+    // ഫുൾ സ്ക്രീൻ വ്യൂ ക്ലോസ് ചെയ്യാൻ
+    function closeFullScreen() { 
+      const modal = document.getElementById("fullScreenModal");
+      if (modal) modal.style.display = "none"; 
+    }
+
+    // മോഡലിന് പുറത്ത് ക്ലിക്ക് ചെയ്താൽ ക്ലോസ് ആകാൻ
+    window.onclick = function(event) { 
+      if (event.target == document.getElementById("fullScreenModal")) closeFullScreen(); 
+    }
+
+    // പ്രോഡക്റ്റ് ഡാറ്റ ഫെച്ച് ചെയ്യുന്നു
+    fetch("products.json")
+      .then(res => res.json())
+      .then(products => {
+        const reversedProducts = [...products].reverse();
+        const startIndex = (currentPage - 1) * productsPerPage;
+        const pageProducts = reversedProducts.slice(startIndex, startIndex + productsPerPage);
+        renderProducts(pageProducts, container, imageFolder);
+        if(typeof setupCart === 'function') setupCart(pageProducts, container, imageFolder);
+        handlePagination(products.length);
+      });
+
+    // പേജിനേഷൻ ബട്ടണുകൾ നിയന്ത്രിക്കുന്നു
+    function handlePagination(totalProducts) {
+      const totalPages = Math.ceil(totalProducts / productsPerPage);
+      document.getElementById("pageInfo").textContent = `Page ${currentPage} of ${totalPages}`;
+      if (currentPage > 1) {
+        document.getElementById("prevPage").style.display = "inline-block";
+        document.getElementById("prevLink").href = `?page=${currentPage - 1}`;
+      }
+      if (currentPage < totalPages) {
+        document.getElementById("nextPage").style.display = "inline-block";
+        document.getElementById("nextLink").href = `?page=${currentPage + 1}`;
+      }
+    }
+
+    // സ്ക്രോൾ ലോജിക് (പ്രധാന മാറ്റങ്ങൾ ഇവിടെയാണ്)
+    window.onscroll = function() {
+      const floatingCart = document.getElementById("floatingCart");
+      const cartModal = document.getElementById("cartModal");
+      const fullScreenModal = document.getElementById("fullScreenModal");
+
+      // 1. ഫുൾ സ്ക്രീൻ വ്യൂ തുറന്നിരിക്കുമ്പോൾ സ്ക്രോൾ ചെയ്താൽ അത് ക്ലോസ് ചെയ്യുന്നു
+      if (fullScreenModal && fullScreenModal.style.display === "flex") {
+        closeFullScreen();
+      }
+
+      // 2. സ്ക്രോൾ പൊസിഷൻ അനുസരിച്ച് ഫ്ലോട്ടിംഗ് കാർട്ടും മോഡലും നിയന്ത്രിക്കുന്നു
+      if (window.scrollY > 100) {
+        floatingCart.classList.add("show");
+        if (cartModal) cartModal.remove(); // സ്ക്രോൾ ചെയ്യുമ്പോൾ കാർട്ട് വിൻഡോ ക്ലോസ് ചെയ്യുന്നു
+      } else {
+        floatingCart.classList.remove("show");
+      }
+    };
 </script>
 </body>
 </html>
